@@ -1,6 +1,11 @@
 {
   "name": "pokedex",
   "version": "0.0.1",
+  "engines": {
+    "node": "v18",
+    "yarn": "v1",
+    "npm": "v9"
+  },
   "private": true,
   "scripts": {
     "android": "react-native run-android",
