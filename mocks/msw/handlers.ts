@@ -1,3 +1,4 @@
+import {ResponseGetPokemonListByType} from 'hooks/useGetPokemonListByType';
 import {rest} from 'msw';
 import {ResponseGetPokemonList} from 'schema/PokemonSchema';
 
@@ -25,6 +26,63 @@ export const expectedDataListPokemonType: ResponseGetPokemonList = {
   ],
 };
 
+export const expectedDataListPokemonByType: ResponseGetPokemonListByType = {
+  id: 1,
+  pokemon: [
+    {
+      pokemon: {
+        name: 'pidgey',
+        url: 'https://pokeapi.co/api/v2/pokemon/16/',
+      },
+      slot: 1,
+    },
+  ],
+  past_damage_relations: [],
+  names: [
+    {
+      name: 'Normal',
+      language: {
+        name: 'en',
+        url: 'https://pokeapi.co/api/v2/language/9/',
+      },
+    },
+  ],
+  name: 'normal',
+  moves: [
+    {
+      name: 'pound',
+      url: 'https://pokeapi.co/api/v2/move/1/',
+    },
+  ],
+  damage_relations: {
+    no_damage_to: [],
+    no_damage_from: [],
+    half_damage_to: [],
+    half_damage_from: [],
+    double_damage_to: [],
+    double_damage_from: [],
+  },
+  game_indices: [
+    {
+      game_index: 1,
+      generation: {
+        name: 'generation-i',
+        url: 'https://pokeapi.co/api/v2/generation/1/',
+      },
+    },
+  ],
+  generation: {
+    name: 'generation-i',
+    url: 'https://pokeapi.co/api/v2/generation/1/',
+  },
+  move_damage_class: [
+    {
+      name: 'physical',
+      url: 'https://pokeapi.co/api/v2/move-damage-class/2/',
+    },
+  ],
+};
+
 export const handlers = [
   rest.get('https://pokeapi.co/api/v2', (req, res, ctx) =>
     res(
@@ -46,5 +104,8 @@ export const handlers = [
   }),
   rest.get('https://pokeapi.co/api/v2/type', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonType)),
+  ),
+  rest.get('https://pokeapi.co/api/v2/type/1', (req, res, ctx) =>
+    res(ctx.json(expectedDataListPokemonByType)),
   ),
 ];

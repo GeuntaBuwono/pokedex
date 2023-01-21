@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-const PokemonResultsSchema = z.object({
+export const PokemonResultsSchema = z.object({
   name: z.string(),
   url: z.string().url(),
 });
