@@ -1,21 +1,8 @@
 import {renderHook, waitFor} from '@testing-library/react-native';
-import {
-  ResponseGetPokemonList,
-  useGetPokemonList,
-} from 'hooks/useGetPokemonList';
+import {useGetPokemonList} from 'hooks/useGetPokemonList';
 import {wrapper} from 'utils/QueryClientWrapperForTest';
 
-const expectedData: ResponseGetPokemonList = {
-  count: 20,
-  next: 'https://pokeapi.co/api/v2/ability?offset=20&limit=20',
-  previous: null,
-  results: [
-    {
-      name: 'pikacu',
-      url: 'https://pokeapi.co/api/v2/ability/1/',
-    },
-  ],
-};
+import {expectedDataListPokemon} from '../../../mocks/msw/handlers';
 
 describe('useGetListPokemon', () => {
   test('should be called', async () => {
@@ -32,8 +19,8 @@ describe('useGetListPokemon', () => {
 
     await waitFor(() =>
       expect(result.current.data).toStrictEqual({
-        ...expectedData,
-        next: 'https://pokeapi.co/api/v2/ability?offset=1&limit=1',
+        ...expectedDataListPokemon,
+        next: 'https://pokeapi.co/api/v2/pokemon?offset=1&limit=1',
       }),
     );
   });
@@ -42,7 +29,7 @@ describe('useGetListPokemon', () => {
     const {result} = renderHook(() => useGetPokemonList(), {wrapper});
 
     await waitFor(() =>
-      expect(result.current.data).toStrictEqual(expectedData),
+      expect(result.current.data).toStrictEqual(expectedDataListPokemon),
     );
   });
 });

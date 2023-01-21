@@ -1,14 +1,26 @@
-import {ResponseGetPokemonList} from 'hooks/useGetPokemonList';
 import {rest} from 'msw';
+import {ResponseGetPokemonList} from 'schema/PokemonSchema';
 
-const expectedData: ResponseGetPokemonList = {
+export const expectedDataListPokemon: ResponseGetPokemonList = {
   count: 20,
+  next: 'https://pokeapi.co/api/v2/pokemon?offset=20&limit=20',
   previous: null,
-  next: 'https://pokeapi.co/api/v2/ability?offset=20&limit=20',
   results: [
     {
       name: 'pikacu',
-      url: 'https://pokeapi.co/api/v2/ability/1/',
+      url: 'https://pokeapi.co/api/v2/pokemon/1/',
+    },
+  ],
+};
+
+export const expectedDataListPokemonType: ResponseGetPokemonList = {
+  count: 20,
+  next: null,
+  previous: null,
+  results: [
+    {
+      name: 'pikacu',
+      url: 'https://pokeapi.co/api/v2/type/1/',
     },
   ],
 };
@@ -21,17 +33,18 @@ export const handlers = [
       }),
     ),
   ),
-  rest.get('https://pokeapi.co/api/v2/ability', (req, res, ctx) => {
-    const offset = req.url.searchParams.get('offset');
-    const limit = req.url.searchParams.get('limit');
+  rest.get('https://pokeapi.co/api/v2/pokemon', (req, res, ctx) => {
+    const offset = req.url.searchParams.get('offset') || 20;
+    const limit = req.url.searchParams.get('limit') || 20;
 
     return res(
       ctx.json({
-        ...expectedData,
-        next: `https://pokeapi.co/api/v2/ability?offset=${offset || 20}&limit=${
-          limit || 20
-        }`,
+        ...expectedDataListPokemon,
+        next: `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`,
       }),
     );
   }),
+  rest.get('https://pokeapi.co/api/v2/type', (req, res, ctx) =>
+    res(ctx.json(expectedDataListPokemonType)),
+  ),
 ];
