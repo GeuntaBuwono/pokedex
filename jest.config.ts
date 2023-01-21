@@ -4,6 +4,7 @@ const config: Config.InitialOptions = {
   verbose: true,
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  setupFilesAfterEnv: ['./jest/jest.setup.js'],
   coverageThreshold: {
     global: {
       branches: 80,
