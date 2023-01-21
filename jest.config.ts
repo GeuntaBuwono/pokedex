@@ -4,7 +4,11 @@ const config: Config.InitialOptions = {
   verbose: true,
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFilesAfterEnv: ['./jest/jest.setup.js'],
+  setupFiles: ['<rootDir>/jest/jest.setupFiles.js'],
+  setupFilesAfterEnv: [
+    '<rootDir>/jest/jest.setupFilesAfterEnv.js',
+    '@testing-library/jest-native/extend-expect',
+  ],
   coverageThreshold: {
     global: {
       branches: 80,

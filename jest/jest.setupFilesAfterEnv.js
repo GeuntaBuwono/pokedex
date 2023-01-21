@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-// Polyfill "window.fetch" used in the React component.
 import '@testing-library/react-hooks';
 
 import {queryClientForTesting} from 'utils/QueryClientWrapperForTest';
