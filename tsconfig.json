@@ -15,9 +15,9 @@
       "layout/*": ["layout/*"],
       "screens/*": ["screens/*"],
       "services/*": ["services/*"],
-      "types/*": ["types/*"],
       "utils/*": ["utils/*"]
-    }
+    },
+    "types": ["jest", "styled-components-react-native"]
   },
   "exclude": [
     "node_modules",

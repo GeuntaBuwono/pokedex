@@ -1,10 +1,15 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {isDarkThemeAtom} from 'atoms/appAtom';
+import {useAtom} from 'jotai';
 import {Text, TouchableOpacity, View} from 'react-native';
 
 import {RootStackParamList} from './AppStackNavigator';
 
 function HomepageScreen() {
   const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const [isDarkTheme, setTheme] = useAtom(isDarkThemeAtom);
+
   return (
     <View
       style={{
@@ -14,8 +19,16 @@ function HomepageScreen() {
         backgroundColor: 'white',
       }}>
       <Text>Homepage</Text>
+      <Text>{isDarkTheme ? 'Dark' : 'Light'} Theme</Text>
 
       <View style={{gap: 10, marginTop: 12}}>
+        <TouchableOpacity
+          onPress={() => {
+            setTheme(!isDarkTheme);
+          }}
+          style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
+          <Text style={{color: '#fff'}}>Change Theme</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigate('TypePokemon', {
