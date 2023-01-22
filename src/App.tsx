@@ -14,7 +14,7 @@ import {
   NavigationContainer,
 } from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import {isDarkThemeAtom} from 'atoms/appAtom';
+import {themeAtom} from 'atoms/appAtom';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {AppStackNavigator} from 'screens/AppStackNavigator';
@@ -25,11 +25,11 @@ import {lightTheme} from 'styles/lightTheme';
 const queryClient = new QueryClient();
 
 function App(): JSX.Element {
-  const [isDarkTheme] = useAtom(isDarkThemeAtom);
+  const [isDarkMode] = useAtom(themeAtom);
 
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <NavigationContainer theme={isDarkTheme ? DarkTheme : DefaultTheme}>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
         <QueryClientProvider client={queryClient}>
           <AppStackNavigator />
         </QueryClientProvider>

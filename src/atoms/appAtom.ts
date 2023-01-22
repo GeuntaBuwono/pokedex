@@ -1,3 +1,3 @@
-import {atom} from 'jotai';
+import {atomWithMMKV} from 'utils/atomWithMMKV';
 
-export const isDarkThemeAtom = atom(false);
+export const themeAtom = atomWithMMKV('darkMode', false);
