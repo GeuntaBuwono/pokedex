@@ -24,6 +24,7 @@ module.exports = {
           'layout/*': ['layout/*'],
           'screen/*': ['screen/*'],
           'locales/*': ['locales/*'],
+          'images/*': ['images/*'],
           'utils/*': ['utils/*'],
         },
       },

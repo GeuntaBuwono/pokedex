@@ -1,5 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Text, TouchableOpacity} from 'react-native';
+import {Image, Text, TouchableOpacity} from 'react-native';
 
 import DetailPokemonScreen from './DetailPokemonScreen';
 import HomepageScreen from './HomepageScreen';
@@ -12,6 +12,19 @@ export type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const LeftHeader = () => {
+  return (
+    <Image
+      style={{
+        height: 24,
+        width: 69,
+      }}
+      resizeMode="contain"
+      source={require('../images/logo.png')}
+    />
+  );
+};
 
 const RightHeader = () => {
   return (
@@ -26,7 +39,9 @@ export const AppStackNavigator = () => {
     <Stack.Navigator
       initialRouteName="Homepage"
       screenOptions={{
+        headerLeft: LeftHeader,
         headerRight: RightHeader,
+        title: '',
       }}>
       <Stack.Screen name="Homepage" component={HomepageScreen} />
       <Stack.Screen name="TypePokemon" component={TypePokemonScreen} />

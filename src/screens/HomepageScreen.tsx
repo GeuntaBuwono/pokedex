@@ -22,7 +22,6 @@ function HomepageScreen() {
       }}>
       <Text>{t('homepage:Homepage')}</Text>
       <Text>{isDarkMode ? 'Dark' : 'Light'} Theme</Text>
-
       <View style={{gap: 10, marginTop: 12}}>
         <TouchableOpacity
           onPress={() => {

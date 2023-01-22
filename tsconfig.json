@@ -16,6 +16,7 @@
       "screens/*": ["screens/*"],
       "services/*": ["services/*"],
       "locales/*": ["locales/*"],
+      "images/*": ["images/*"],
       "utils/*": ["utils/*"]
     },
     "types": ["jest", "styled-components-react-native"]
