@@ -24,6 +24,7 @@ const RightHeader = () => {
 export const AppStackNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Homepage"
       screenOptions={{
         headerRight: RightHeader,
       }}>
