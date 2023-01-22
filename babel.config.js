@@ -23,6 +23,7 @@ module.exports = {
           'hooks/*': ['hooks/*'],
           'layout/*': ['layout/*'],
           'screen/*': ['screen/*'],
+          'locales/*': ['locales/*'],
           'utils/*': ['utils/*'],
         },
       },

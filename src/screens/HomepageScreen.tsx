@@ -1,6 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {themeAtom} from 'atoms/appAtom';
 import {useAtom} from 'jotai';
+import {useTranslation} from 'react-i18next';
 import {Text, TouchableOpacity, View} from 'react-native';
 
 import {RootStackParamList} from './AppStackNavigator';
@@ -8,6 +9,7 @@ import {RootStackParamList} from './AppStackNavigator';
 function HomepageScreen() {
   const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
 
+  const {t} = useTranslation(['homepage']);
   const [isDarkMode, setIsDarkMode] = useAtom(themeAtom);
 
   return (
@@ -18,7 +20,7 @@ function HomepageScreen() {
         justifyContent: 'center',
         backgroundColor: 'white',
       }}>
-      <Text>Homepage</Text>
+      <Text>{t('homepage:Homepage')}</Text>
       <Text>{isDarkMode ? 'Dark' : 'Light'} Theme</Text>
 
       <View style={{gap: 10, marginTop: 12}}>
@@ -27,7 +29,9 @@ function HomepageScreen() {
             setIsDarkMode(!isDarkMode);
           }}
           style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>Change Theme</Text>
+          <Text style={{color: '#fff'}}>
+            {t('homepage:button.Change Theme')}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -36,7 +40,9 @@ function HomepageScreen() {
             });
           }}
           style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>Go To Type Pokemon</Text>
+          <Text style={{color: '#fff'}}>
+            {t('homepage:button.Go To Type Pokemon')}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -45,7 +51,9 @@ function HomepageScreen() {
             });
           }}
           style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>Go To Detail Pikachu</Text>
+          <Text style={{color: '#fff'}}>
+            {t('homepage:button.Go To Detail Pikachu')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

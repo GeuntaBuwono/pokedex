@@ -15,6 +15,7 @@
       "layout/*": ["layout/*"],
       "screens/*": ["screens/*"],
       "services/*": ["services/*"],
+      "locales/*": ["locales/*"],
       "utils/*": ["utils/*"]
     },
     "types": ["jest", "styled-components-react-native"]
