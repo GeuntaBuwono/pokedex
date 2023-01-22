@@ -22,7 +22,7 @@
     "check:prettier": "prettier --config .prettierrc.js ./src/ --check",
     "check:dead-ts": "ts-unused-exports tsconfig.json --exitWithCount --ignoreTestFiles styled-components.ts",
     "check:ts": "tsc --noEmit",
-    "checker": "yarn tsc; yarn check:lint; yarn test; yarn check:prettier; yarn check:dead-ts",
+    "checker": "yarn tsc && yarn check:lint && yarn test && yarn check:prettier && yarn check:dead-ts",
     "format:lint": "eslint --fix ./src/",
     "format:prettier": "prettier --config .prettierrc.js ./src/ --write",
     "formatter": "yarn format:lint && yarn format:prettier",
