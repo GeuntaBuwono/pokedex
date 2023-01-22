@@ -3,8 +3,24 @@
 declare module 'styled-components/native' {
   export interface DefaultTheme {
     colors: {
-      main: string;
-      secondary: string;
+      white: string;
+      netural: {
+        500: string;
+        400: string;
+        300: string;
+      };
+      secondary: {
+        yellow: string;
+        red: {
+          600: string;
+        };
+      };
+      blue: {
+        700: string;
+      };
+      green: {
+        700: string;
+      };
     };
   }
 }
