@@ -2,17 +2,16 @@ import 'react-native';
 
 import {fireEvent, render, screen} from '@testing-library/react-native';
 import React from 'react';
-import {I18nextProvider} from 'react-i18next';
 import HomepageScreen from 'screens/HomepageScreen';
+import TestingWrapper from 'utils/TestingWrapper';
 
 import {mockedNavigate} from '../../../jest/jest.setupFiles';
-import i18n from '../../i18n/i18n';
 
 describe('Homepage Screen', () => {
   const wrapper = (
-    <I18nextProvider i18n={i18n}>
+    <TestingWrapper>
       <HomepageScreen />
-    </I18nextProvider>
+    </TestingWrapper>
   );
 
   test('renders correctly', () => {

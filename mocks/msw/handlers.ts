@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import {ResponseGetDetailPokemon} from 'hooks/useGetDetailPokemon';
 import {ResponseGetPokemonListByType} from 'hooks/useGetPokemonListByType';
 import {rest} from 'msw';
@@ -9,8 +10,8 @@ export const expectedDataListPokemon: ResponseGetPokemonList = {
   previous: null,
   results: [
     {
-      name: 'pikacu',
-      url: 'https://pokeapi.co/api/v2/pokemon/1/',
+      name: 'spearow',
+      url: 'https://pokeapi.co/api/v2/pokemon/21/',
     },
   ],
 };
@@ -21,7 +22,7 @@ export const expectedDataListPokemonType: ResponseGetPokemonList = {
   previous: null,
   results: [
     {
-      name: 'pikacu',
+      name: 'normal',
       url: 'https://pokeapi.co/api/v2/type/1/',
     },
   ],
@@ -202,39 +203,39 @@ export const expectDataDetailPokemon: ResponseGetDetailPokemon = {
     },
     versions: {
       'generation-i': {
-        'red-blue': {
-          back_default:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/back/25.png',
-          back_gray:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/back/gray/25.png',
-          back_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/back/25.png',
+        yellow: {
           front_default:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/25.png',
-          front_gray:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/gray/25.png',
-          front_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-i/red-blue/transparent/25.png',
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
         },
       },
       'generation-ii': {
-        crystal: {
-          back_default:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/back/25.png',
-          back_shiny:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/back/shiny/25.png',
-          back_shiny_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/back/shiny/25.png',
-          back_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/back/25.png',
+        gold: {
           front_default:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/25.png',
-          front_shiny:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/shiny/25.png',
-          front_shiny_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/shiny/25.png',
-          front_transparent:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/transparent/25.png',
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+        },
+      },
+      'generation-iii': {
+        emerald: {
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+        },
+      },
+      'generation-iv': {
+        'diamond-pearl': {
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+        },
+      },
+      'generation-v': {
+        'black-white': {
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+        },
+      },
+      'generation-vi': {
+        'omegaruby-alphasapphire': {
+          front_default:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
         },
       },
     },
@@ -261,6 +262,88 @@ export const expectDataDetailPokemon: ResponseGetDetailPokemon = {
   weight: 60,
 };
 
+const expectedEvolutionChain = {
+  baby_trigger_item: null,
+  chain: {
+    evolution_details: [],
+    evolves_to: [
+      {
+        evolution_details: [
+          {
+            gender: null,
+            held_item: null,
+            item: null,
+            known_move: null,
+            known_move_type: null,
+            location: null,
+            min_affection: null,
+            min_beauty: null,
+            min_happiness: null,
+            min_level: 16,
+            needs_overworld_rain: false,
+            party_species: null,
+            party_type: null,
+            relative_physical_stats: null,
+            time_of_day: '',
+            trade_species: null,
+            trigger: {
+              name: 'level-up',
+              url: 'https://pokeapi.co/api/v2/evolution-trigger/1/',
+            },
+            turn_upside_down: false,
+          },
+        ],
+        evolves_to: [
+          {
+            evolution_details: [
+              {
+                gender: null,
+                held_item: null,
+                item: null,
+                known_move: null,
+                known_move_type: null,
+                location: null,
+                min_affection: null,
+                min_beauty: null,
+                min_happiness: null,
+                min_level: 32,
+                needs_overworld_rain: false,
+                party_species: null,
+                party_type: null,
+                relative_physical_stats: null,
+                time_of_day: '',
+                trade_species: null,
+                trigger: {
+                  name: 'level-up',
+                  url: 'https://pokeapi.co/api/v2/evolution-trigger/1/',
+                },
+                turn_upside_down: false,
+              },
+            ],
+            evolves_to: [],
+            is_baby: false,
+            species: {
+              name: 'venusaur',
+              url: 'https://pokeapi.co/api/v2/pokemon-species/3/',
+            },
+          },
+        ],
+        is_baby: false,
+        species: {
+          name: 'ivysaur',
+          url: 'https://pokeapi.co/api/v2/pokemon-species/2/',
+        },
+      },
+    ],
+    is_baby: false,
+    species: {
+      name: 'bulbasaur',
+      url: 'https://pokeapi.co/api/v2/pokemon-species/1/',
+    },
+  },
+  id: 1,
+};
+
 export const handlers = [
   rest.get('https://pokeapi.co/api/v2', (req, res, ctx) =>
     res(
@@ -283,10 +366,16 @@ export const handlers = [
   rest.get('https://pokeapi.co/api/v2/pokemon/pikachu', (req, res, ctx) =>
     res(ctx.json(expectDataDetailPokemon)),
   ),
+  rest.get('https://pokeapi.co/api/v2/pokemon/1', (req, res, ctx) =>
+    res(ctx.json(expectDataDetailPokemon)),
+  ),
   rest.get('https://pokeapi.co/api/v2/type', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonType)),
   ),
   rest.get('https://pokeapi.co/api/v2/type/1', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonByType)),
+  ),
+  rest.get('https://pokeapi.co/api/v2/evolution-chain/1', (req, res, ctx) =>
+    res(ctx.json(expectedEvolutionChain)),
   ),
 ];

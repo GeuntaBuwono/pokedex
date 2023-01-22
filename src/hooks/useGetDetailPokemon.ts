@@ -6,10 +6,14 @@ const ParamsGetPokemonDetailSchema = z.object({
   id: z.string(),
 });
 
-const PokemonVersionSchema = z.record(
-  z.string(),
-  z.record(z.string(), z.record(z.string(), z.string())),
-);
+const PokemonImageSchema = z.object({
+  back_default: z.string().url().nullish(),
+  back_gray: z.string().url().nullish(),
+  back_transparent: z.string().url().nullish(),
+  front_default: z.string().url().nullish(),
+  front_gray: z.string().url().nullish(),
+  front_transparent: z.string().url().nullish(),
+});
 
 const ResponseGetPokemonDetailSchema = z.object({
   abilities: z.array(
@@ -88,31 +92,52 @@ const ResponseGetPokemonDetailSchema = z.object({
     url: z.string().url(),
   }),
   sprites: z.object({
-    back_default: z.string().url(),
-    back_female: z.string().url(),
-    back_shiny: z.string().url(),
-    back_shiny_female: z.string().url(),
-    front_default: z.string().url(),
-    front_female: z.string().url(),
-    front_shiny: z.string().url(),
-    front_shiny_female: z.string().url(),
+    back_default: z.string().url().nullish(),
+    back_female: z.string().url().nullish(),
+    back_shiny: z.string().url().nullish(),
+    back_shiny_female: z.string().url().nullish(),
+    front_default: z.string().url().nullish(),
+    front_female: z.string().url().nullish(),
+    front_shiny: z.string().url().nullish(),
+    front_shiny_female: z.string().url().nullish(),
     other: z.object({
       dream_world: z.object({
-        front_default: z.string().url(),
-        front_female: z.string().url().nullable(),
+        front_default: z.string().url().nullish(),
+        front_female: z.string().url().nullish(),
       }),
-      home: z.object({
-        front_default: z.string().url(),
-        front_female: z.string().url(),
-        front_shiny: z.string().url(),
-        front_shiny_female: z.string().url(),
-      }),
+      home: z
+        .object({
+          front_default: z.string().url().nullish(),
+          front_female: z.string().url().nullish(),
+          front_shiny: z.string().url().nullish(),
+          front_shiny_female: z.string().url().nullish(),
+        })
+        .nullable(),
       'official-artwork': z.object({
-        front_default: z.string().url(),
-        front_shiny: z.string().url(),
+        front_default: z.string().url().nullish(),
+        front_shiny: z.string().url().nullish(),
       }),
     }),
-    versions: PokemonVersionSchema,
+    versions: z.object({
+      'generation-i': z.object({
+        yellow: PokemonImageSchema,
+      }),
+      'generation-ii': z.object({
+        gold: PokemonImageSchema,
+      }),
+      'generation-iii': z.object({
+        emerald: PokemonImageSchema,
+      }),
+      'generation-iv': z.object({
+        'diamond-pearl': PokemonImageSchema,
+      }),
+      'generation-v': z.object({
+        'black-white': PokemonImageSchema,
+      }),
+      'generation-vi': z.object({
+        'omegaruby-alphasapphire': PokemonImageSchema,
+      }),
+    }),
   }),
   stats: z.array(
     z.object({
