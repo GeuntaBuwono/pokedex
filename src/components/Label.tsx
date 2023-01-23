@@ -23,7 +23,7 @@ const fontsizeMapper: Record<LabelSize, string> = {
 const LabelStyled = styled(Text)<Props>`
   font-family: 'Poppins-Regular';
   font-size: ${props => fontsizeMapper[props.$size || 'md']};
-  color: ${props => props.$color || props.theme.colors.netural[500]};
+  color: ${props => props.$color || props.theme.text.description.color};
   text-transform: ${props => props.$textTransform || 'none'};
   font-weight: ${props => (props.$isBold ? 'bold' : 'normal')};
   text-align: ${props => props.$textAlign || 'left'};
