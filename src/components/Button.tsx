@@ -6,6 +6,7 @@ import Label from './Label';
 type Props = {
   children: string;
   onPress: () => void;
+  testID?: string;
 };
 
 type ButtonStyle = {
@@ -19,8 +20,8 @@ const StyledButton = styled(TouchableOpacity)<ButtonStyle>`
     props.$bgColor || props.theme.colors.secondary.yellow};
 `;
 
-const Button = ({children, onPress, $bgColor}: Props & ButtonStyle) => (
-  <StyledButton onPress={onPress} $bgColor={$bgColor}>
+const Button = ({children, onPress, $bgColor, testID}: Props & ButtonStyle) => (
+  <StyledButton onPress={onPress} $bgColor={$bgColor} testID={testID}>
     <Label $textAlign="center" $color="white" $isBold>
       {children}
     </Label>
