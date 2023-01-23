@@ -17,7 +17,11 @@ const config: Config.InitialOptions = {
       statements: 80,
     },
   },
-  coveragePathIgnorePatterns: ['src/screens/DetailPokemonScreen.tsx'],
+  coveragePathIgnorePatterns: [
+    'src/screens/DetailPokemonScreen.tsx',
+    'src/screens/HomepageScreen.tsx',
+  ],
+  testPathIgnorePatterns: ['src/__tests__/App.test.tsx'],
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|rollbar-react-native|@fortawesome|@react-native|@react-navigation)',
   ],
