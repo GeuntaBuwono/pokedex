@@ -1,6 +1,11 @@
 {
   "welcome": "All the Pokémon data you'll ever need in one place!",
   "description": "Thousands of data compiled into one place",
+  "list": {
+    "PokèDex": "PokèDex",
+    "All Generation totaling": "All Generation totaling ",
+    "Pokemon": " Pokemon"
+  },
   "button": {
     "Check PokèDex": "Check PokèDex",
     "Change Theme": "Change Theme",

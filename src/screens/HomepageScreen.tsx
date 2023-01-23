@@ -8,6 +8,7 @@ import Label from 'components/Label';
 import ListFooter from 'components/ListFooter';
 import LoadingSpinner from 'components/Loading';
 import {useGetPokemonList} from 'hooks/useGetPokemonList';
+import i18next from 'i18next';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -29,11 +30,12 @@ const ListHeaderComponent = ({dataCount}: {dataCount: number}) => (
       paddingHorizontal: 24,
     }}>
     <Label $textAlign="center" $isBold $size="lg">
-      PokèDex
+      {i18next.t('homepage:list.PokèDex')}
     </Label>
     {dataCount && (
       <Label $textAlign="center">
-        All Generation totaling {String(dataCount)} Pokemon
+        {i18next.t('homepage:list.All Generation totaling')} {String(dataCount)}
+        {i18next.t('homepage:list.Pokemon')}
       </Label>
     )}
   </View>
