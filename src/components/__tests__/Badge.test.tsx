@@ -8,7 +8,7 @@ describe('Badge', () => {
   test('renders correctly', () => {
     render(
       <TestingWrapper>
-        <Badge $bgColor="red" label="Badge Testing" />
+        <Badge $bgColor="blue" label="Badge Testing" $size="lg" />
       </TestingWrapper>,
     );
     expect(screen.getByText('Badge Testing')).toBeTruthy();
