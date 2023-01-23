@@ -23,7 +23,7 @@ type Props = {
 
 const Badge = ({$bgColor, label}: Props & StyledProps) => (
   <StyledBadge $bgColor={$bgColor}>
-    <Label $isBold $color="white" $textAlign="center">
+    <Label $isBold $color="white" $size="sm" $textAlign="center">
       {label}
     </Label>
   </StyledBadge>
