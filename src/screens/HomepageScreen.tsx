@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
@@ -10,6 +11,7 @@ import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, Image, View} from 'react-native';
+import {useTheme} from 'styled-components/native';
 
 import {RootStackParamList} from './AppStackNavigator';
 
@@ -20,6 +22,9 @@ type NavigationLoginScreenProps = NativeStackNavigationProp<
 
 function HomepageScreen() {
   const [offset] = useState(5);
+  const [isUserCheckedPokedex, setIsUserCheckedPokedex] = useState(false);
+
+  const {list} = useTheme();
 
   const navigation = useNavigation<NavigationLoginScreenProps>();
 
@@ -33,37 +38,12 @@ function HomepageScreen() {
   // TODO add loadmore
   const handleLoadMore = () => undefined;
 
-  return (
-    <ScrollViewLayout isNoPadding>
-      <View style={{paddingHorizontal: 36, paddingVertical: 40}}>
-        <View>
-          <View style={{alignItems: 'flex-end'}}>
-            <Image
-              style={{
-                height: 300,
-                width: 250,
-              }}
-              source={require('../images/homepage-banner.png')}
-            />
-          </View>
-          <View style={{gap: 16}}>
-            <Label $size="lg" $isBold>
-              {t('homepage:welcome')}
-            </Label>
-            <Label>{t('homepage:description')}</Label>
-          </View>
-
-          <View style={{marginTop: 32, flexDirection: 'row'}}>
-            <Button onPress={() => undefined}>
-              {t('homepage:button.Check PokèDex')}
-            </Button>
-          </View>
-        </View>
-      </View>
+  if (isUserCheckedPokedex) {
+    return (
       <View
         style={{
-          height: Dimensions.get('screen').height - 100,
-          backgroundColor: '#FFCB3B',
+          height: Dimensions.get('screen').height - 50,
+          backgroundColor: list.background.color,
         }}>
         <FlashList
           nestedScrollEnabled
@@ -86,6 +66,42 @@ function HomepageScreen() {
             marginVertical: 50,
           }}
         />
+      </View>
+    );
+  }
+
+  return (
+    <ScrollViewLayout isNoPadding>
+      <View
+        style={{
+          paddingHorizontal: 36,
+          paddingVertical: 40,
+          height: Dimensions.get('screen').height - 100,
+        }}>
+        <View style={{alignItems: 'flex-end'}}>
+          <Image
+            style={{
+              height: 300,
+              width: 250,
+            }}
+            source={require('../images/homepage-banner.png')}
+          />
+        </View>
+        <View style={{gap: 16}}>
+          <Label $size="lg" $isBold>
+            {t('homepage:welcome')}
+          </Label>
+          <Label>{t('homepage:description')}</Label>
+        </View>
+
+        <View style={{marginTop: 32, flexDirection: 'row'}}>
+          <Button
+            onPress={() => {
+              setIsUserCheckedPokedex(!isUserCheckedPokedex);
+            }}>
+            {t('homepage:button.Check PokèDex')}
+          </Button>
+        </View>
       </View>
     </ScrollViewLayout>
   );

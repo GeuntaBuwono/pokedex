@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ScrollViewLayout = ({children, isNoPadding}: Props) => {
-  const {background} = useTheme();
+  const {screen} = useTheme();
   return (
     <ScrollView
       // eslint-disable-next-line react-native/no-inline-styles
@@ -18,7 +18,7 @@ const ScrollViewLayout = ({children, isNoPadding}: Props) => {
       }}
       testID="scrollViewLayout"
       style={{
-        backgroundColor: background.color,
+        backgroundColor: screen.background.color,
       }}>
       {children}
     </ScrollView>

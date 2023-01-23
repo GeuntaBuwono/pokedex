@@ -5,8 +5,25 @@ import {
 import {DefaultTheme} from 'styled-components/native';
 
 export const darkTheme: DefaultTheme = {
-  background: {
-    color: '#212121',
+  card: {
+    background: {
+      color: '#616161',
+    },
+    image: {
+      background: {
+        color: '#E0E0E0',
+      },
+    },
+  },
+  list: {
+    background: {
+      color: '#212121',
+    },
+  },
+  screen: {
+    background: {
+      color: '#212121',
+    },
   },
   text: {
     title: {

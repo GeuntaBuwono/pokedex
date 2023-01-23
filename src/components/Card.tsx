@@ -2,9 +2,28 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {PokemonResults} from 'schema/PokemonSchema';
 import {RootStackParamList} from 'screens/AppStackNavigator';
+import styled from 'styled-components';
 
 import Badge from './Badge';
 import Label from './Label';
+
+const StyledCardItem = styled(TouchableOpacity)`
+  background-color: ${props => props.theme.card?.background.color};
+  padding: 25px;
+  border-radius: 24px;
+  gap: 10px;
+`;
+
+const StyledCardItemImage = styled(Image)`
+  width: 100%;
+  height: 200px;
+  background-color: ${props => props.theme.card?.image.background.color};
+`;
+
+const StyledBadgeWrapper = styled(View)`
+  flex-direction: row;
+  gap: 8px;
+`;
 
 function CardItem({
   item,
@@ -16,25 +35,14 @@ function CardItem({
   navigation?: NativeStackNavigationProp<RootStackParamList, 'Homepage'>;
 }) {
   return (
-    <TouchableOpacity
+    <StyledCardItem
       onPress={() => {
         navigation?.navigate('DetailPokemon', {
           pokemonId: item.name,
         });
-      }}
-      style={{
-        backgroundColor: 'white',
-        padding: 25,
-        borderRadius: 24,
-        gap: 10,
       }}>
       <View>
-        <Image
-          style={{
-            width: '100%',
-            height: 200,
-            backgroundColor: 'lightgray',
-          }}
+        <StyledCardItemImage
           resizeMode="contain"
           source={{
             uri: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
@@ -47,12 +55,12 @@ function CardItem({
       <Label $textTransform="capitalize" $isBold>
         {item.name}
       </Label>
-      <View style={{flexDirection: 'row', gap: 8}}>
+      <StyledBadgeWrapper>
         <Badge label="Type 1" $bgColor="orange" />
         <Badge label="Type 2" $bgColor="red" />
         <Badge label="Type 3" $bgColor="green" />
-      </View>
-    </TouchableOpacity>
+      </StyledBadgeWrapper>
+    </StyledCardItem>
   );
 }
 

@@ -53,6 +53,11 @@ const EvolutionItem = ({imageUri, name}: {imageUri?: string; name: string}) => (
   </View>
 );
 
+const StyledDescriptionItemWrapper = styled(View)<{gap?: number}>`
+  flex-direction: row;
+  gap: ${props => `${props.gap || 20}px`};
+`;
+
 function DetailPokemonScreen() {
   const {data, isLoading, isError} = useGetPokemonDetail({
     id: '1',
@@ -85,15 +90,15 @@ function DetailPokemonScreen() {
           )}
         </StyledSection>
         <StyledSection>
-          <View style={{flexDirection: 'row', gap: 20}}>
+          <StyledDescriptionItemWrapper>
             <Label $isBold>Weight :</Label>
             {data?.weight && <Label>{data?.weight}</Label>}
-          </View>
-          <View style={{flexDirection: 'row', gap: 20}}>
+          </StyledDescriptionItemWrapper>
+          <StyledDescriptionItemWrapper>
             <Label $isBold>Height :</Label>
             {data?.height && <Label>{data?.height}</Label>}
-          </View>
-          <View style={{flexDirection: 'row', gap: 20}}>
+          </StyledDescriptionItemWrapper>
+          <StyledDescriptionItemWrapper>
             <Label $isBold>Abilities :</Label>
             <View>
               {data?.abilities.map(abilitiy => (
@@ -103,11 +108,11 @@ function DetailPokemonScreen() {
                 </Label>
               ))}
             </View>
-          </View>
+          </StyledDescriptionItemWrapper>
 
-          <View style={{flexDirection: 'row', gap: 20}}>
+          <StyledDescriptionItemWrapper>
             <Label $isBold>Type :</Label>
-            <View style={{flexDirection: 'row', gap: 12}}>
+            <StyledDescriptionItemWrapper gap={20}>
               {data?.types.map((type, index) => {
                 if (index % 2 === 0 && index < 4) {
                   return (
@@ -119,8 +124,8 @@ function DetailPokemonScreen() {
                   );
                 }
               })}
-            </View>
-            <View style={{flexDirection: 'row', gap: 12}}>
+            </StyledDescriptionItemWrapper>
+            <StyledDescriptionItemWrapper gap={20}>
               {data?.types.map((type, index) => {
                 if (index % 2 !== 0 && index < 4) {
                   return (
@@ -132,8 +137,8 @@ function DetailPokemonScreen() {
                   );
                 }
               })}
-            </View>
-          </View>
+            </StyledDescriptionItemWrapper>
+          </StyledDescriptionItemWrapper>
         </StyledSection>
 
         {/* 

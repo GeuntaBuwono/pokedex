@@ -7,6 +7,7 @@ import {themeAtom} from 'atoms/appAtom';
 import Label from 'components/Label';
 import {useAtom} from 'jotai';
 import {Image, TouchableOpacity} from 'react-native';
+import styled from 'styled-components/native';
 
 import DetailPokemonScreen from './DetailPokemonScreen';
 import HomepageScreen from './HomepageScreen';
@@ -20,14 +21,15 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const StyledImageLeftHeader = styled(Image)`
+  height: 24px;
+  width: 69px;
+`;
+
 const LeftHeader = ({onPress}: {onPress: () => void}) => {
   return (
     <TouchableOpacity onPress={onPress} testID="leftHeader">
-      <Image
-        style={{
-          height: 24,
-          width: 69,
-        }}
+      <StyledImageLeftHeader
         resizeMode="contain"
         source={require('../images/logo.png')}
       />

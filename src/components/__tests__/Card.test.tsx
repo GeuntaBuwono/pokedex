@@ -13,12 +13,12 @@ const ITEM_DATA: PokemonResults = {
 };
 
 describe('Badge', () => {
+  render(
+    <TestingWrapper>
+      <CardItem index={1} item={ITEM_DATA} />
+    </TestingWrapper>,
+  );
   test('renders correctly', () => {
-    render(
-      <TestingWrapper>
-        <CardItem index={1} item={ITEM_DATA} />
-      </TestingWrapper>,
-    );
     expect(screen.getByText('bulbasaur')).toBeTruthy();
     fireEvent.press(screen.getByText('bulbasaur'));
     expect(mockedNavigate).toHaveBeenCalledTimes(0);
