@@ -1,77 +1,91 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {themeAtom} from 'atoms/appAtom';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {FlashList} from '@shopify/flash-list';
 import Button from 'components/Button';
+import CardItem from 'components/Card';
 import Label from 'components/Label';
-import {useAtom} from 'jotai';
+import ListFooter from 'components/ListFooter';
+import {useGetPokemonList} from 'hooks/useGetPokemonList';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Dimensions, Image, View} from 'react-native';
 
 import {RootStackParamList} from './AppStackNavigator';
 
+type NavigationLoginScreenProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'Homepage'
+>;
+
 function HomepageScreen() {
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>();
+  const [offset] = useState(5);
+
+  const navigation = useNavigation<NavigationLoginScreenProps>();
+
+  const {data} = useGetPokemonList({
+    limit: 5,
+    offset,
+  });
 
   const {t} = useTranslation(['homepage']);
-  const [isDarkMode, setIsDarkMode] = useAtom(themeAtom);
+
+  // TODO add loadmore
+  const handleLoadMore = () => undefined;
 
   return (
-    <ScrollViewLayout>
-      <View style={{alignItems: 'flex-end'}}>
-        <Image
-          style={{
-            height: 300,
-            width: 250,
+    <ScrollViewLayout isNoPadding>
+      <View style={{paddingHorizontal: 36, paddingVertical: 40}}>
+        <View>
+          <View style={{alignItems: 'flex-end'}}>
+            <Image
+              style={{
+                height: 300,
+                width: 250,
+              }}
+              source={require('../images/homepage-banner.png')}
+            />
+          </View>
+          <View style={{gap: 16}}>
+            <Label $size="lg" $isBold>
+              {t('homepage:welcome')}
+            </Label>
+            <Label>{t('homepage:description')}</Label>
+          </View>
+
+          <View style={{marginTop: 32, flexDirection: 'row'}}>
+            <Button onPress={() => undefined}>
+              {t('homepage:button.Check PokèDex')}
+            </Button>
+          </View>
+        </View>
+      </View>
+      <View
+        style={{
+          height: Dimensions.get('screen').height - 100,
+          backgroundColor: '#FFCB3B',
+        }}>
+        <FlashList
+          nestedScrollEnabled
+          data={data?.results}
+          estimatedItemSize={200}
+          contentContainerStyle={{
+            padding: 45,
           }}
-          source={require('../images/homepage-banner.png')}
+          ItemSeparatorComponent={
+            /* istanbul ignore next */
+            () => <View style={{marginVertical: 25}} />
+          }
+          renderItem={({item, index}) => (
+            /* istanbul ignore next */
+            <CardItem item={item} index={index} navigation={navigation} />
+          )}
+          // TODO add loadmore
+          ListFooterComponent={() => <ListFooter onPress={handleLoadMore} />}
+          ListFooterComponentStyle={{
+            marginVertical: 50,
+          }}
         />
-      </View>
-      <View style={{gap: 16}}>
-        <Label $size="lg" $isBold>
-          {t('homepage:welcome')}
-        </Label>
-        <Label>{t('homepage:description')}</Label>
-      </View>
-
-      <View style={{marginTop: 32, flexDirection: 'row'}}>
-        <Button onPress={() => undefined}>
-          {t('homepage:button.Check PokèDex')}
-        </Button>
-      </View>
-
-      <Text>{isDarkMode ? 'Dark' : 'Light'} Theme</Text>
-      <View style={{gap: 10, marginTop: 12}}>
-        <TouchableOpacity
-          onPress={() => {
-            setIsDarkMode(!isDarkMode);
-          }}
-          style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>
-            {t('homepage:button.Change Theme')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigate('TypePokemon', {
-              pokemonType: 'normal',
-            });
-          }}
-          style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>
-            {t('homepage:button.Go To Type Pokemon')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigate('DetailPokemon', {
-              pokemonId: 'pikachu',
-            });
-          }}
-          style={{backgroundColor: 'gray', padding: 8, borderRadius: 8}}>
-          <Text style={{color: '#fff'}}>
-            {t('homepage:button.Go To Detail Pikachu')}
-          </Text>
-        </TouchableOpacity>
       </View>
     </ScrollViewLayout>
   );

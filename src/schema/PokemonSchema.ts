@@ -12,6 +12,7 @@ export const ResponseGetPokemonListSchema = z.object({
   results: z.array(PokemonResultsSchema),
 });
 
+export type PokemonResults = z.infer<typeof PokemonResultsSchema>;
 export type ResponseGetPokemonList = z.infer<
   typeof ResponseGetPokemonListSchema
 >;

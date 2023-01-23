@@ -1,5 +1,12 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Image, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
+import {themeAtom} from 'atoms/appAtom';
+import Label from 'components/Label';
+import {useAtom} from 'jotai';
+import {Image, TouchableOpacity} from 'react-native';
 
 import DetailPokemonScreen from './DetailPokemonScreen';
 import HomepageScreen from './HomepageScreen';
@@ -13,34 +20,58 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const LeftHeader = () => {
+const LeftHeader = ({onPress}: {onPress: () => void}) => {
   return (
-    <Image
-      style={{
-        height: 24,
-        width: 69,
-      }}
-      resizeMode="contain"
-      source={require('../images/logo.png')}
-    />
-  );
-};
-
-const RightHeader = () => {
-  return (
-    <TouchableOpacity>
-      <Text>Home</Text>
+    <TouchableOpacity onPress={onPress} testID="leftHeader">
+      <Image
+        style={{
+          height: 24,
+          width: 69,
+        }}
+        resizeMode="contain"
+        source={require('../images/logo.png')}
+      />
     </TouchableOpacity>
   );
 };
 
+const RightHeader = ({onPress}: {onPress: () => void}) => {
+  return (
+    <TouchableOpacity onPress={onPress} testID="rightHeader">
+      <Label $size="xm">Home</Label>
+    </TouchableOpacity>
+  );
+};
+
+type NavigationLoginScreenProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'Homepage'
+>;
+
 export const AppStackNavigator = () => {
+  const [isDarkMode, setIsDarkMode] = useAtom(themeAtom);
+  const navigation = useNavigation<NavigationLoginScreenProps>();
+
   return (
     <Stack.Navigator
       initialRouteName="Homepage"
       screenOptions={{
-        headerLeft: LeftHeader,
-        headerRight: RightHeader,
+        headerLeft: () => (
+          <LeftHeader
+            onPress={() => {
+              setIsDarkMode(!isDarkMode);
+            }}
+          />
+        ),
+        headerRight: () => (
+          <RightHeader
+            onPress={() => {
+              navigation.navigate('TypePokemon', {
+                pokemonType: 'normal',
+              });
+            }}
+          />
+        ),
         title: '',
       }}>
       <Stack.Screen name="Homepage" component={HomepageScreen} />

@@ -24,17 +24,7 @@ describe('Homepage Screen', () => {
   test('navigation button', () => {
     render(wrapper);
 
-    fireEvent.press(screen.getByText('Go To Type Pokemon'));
-    expect(mockedNavigate).toHaveBeenCalledTimes(1);
-
-    fireEvent.press(screen.getByText('Go To Detail Pikachu'));
-    expect(mockedNavigate).toHaveBeenCalledTimes(2);
-  });
-
-  test('themeing correctly', () => {
-    render(wrapper);
-    expect(screen.getByText('Light Theme')).toBeTruthy();
-    fireEvent.press(screen.getByText('Change Theme'));
-    expect(screen.getByText('Dark Theme')).toBeTruthy();
+    fireEvent.press(screen.getByText('Check PokèDex'));
+    expect(mockedNavigate).toHaveBeenCalledTimes(0);
   });
 });
