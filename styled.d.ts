@@ -2,6 +2,17 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 declare module 'styled-components/native' {
   export interface DefaultTheme {
+    background: {
+      color: string;
+    };
+    text: {
+      title: {
+        color: string;
+      };
+      description: {
+        color: string;
+      };
+    };
     colors: {
       white: string;
       netural: {

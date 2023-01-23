@@ -9,19 +9,15 @@
  */
 import './i18n/i18n';
 
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {themeAtom} from 'atoms/appAtom';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {AppStackNavigator} from 'screens/AppStackNavigator';
 import {ThemeProvider} from 'styled-components/native';
-import {darkTheme} from 'styles/darkTheme';
-import {lightTheme} from 'styles/lightTheme';
+import {darkTheme, NavigationDarkTheme} from 'styles/darkTheme';
+import {lightTheme, NavigationLightTheme} from 'styles/lightTheme';
 
 const queryClient = new QueryClient();
 
@@ -29,8 +25,16 @@ function App(): JSX.Element {
   const [isDarkMode] = useAtom(themeAtom);
 
   return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
+    <ThemeProvider
+      theme={
+        /* istanbul ignore next */
+        isDarkMode ? darkTheme : lightTheme
+      }>
+      <NavigationContainer
+        theme={
+          /* istanbul ignore next */
+          isDarkMode ? NavigationDarkTheme : NavigationLightTheme
+        }>
         <QueryClientProvider client={queryClient}>
           <AppStackNavigator />
         </QueryClientProvider>

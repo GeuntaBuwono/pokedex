@@ -1,6 +1,21 @@
+import {
+  DarkTheme as NavigationDefaultDarkTheme,
+  Theme,
+} from '@react-navigation/native';
 import {DefaultTheme} from 'styled-components/native';
 
 export const darkTheme: DefaultTheme = {
+  background: {
+    color: '#212121',
+  },
+  text: {
+    title: {
+      color: '#fff',
+    },
+    description: {
+      color: '#fff',
+    },
+  },
   colors: {
     white: '#fff',
     netural: {
@@ -20,5 +35,13 @@ export const darkTheme: DefaultTheme = {
     green: {
       700: '#01A54D',
     },
+  },
+};
+
+export const NavigationDarkTheme: Theme = {
+  ...NavigationDefaultDarkTheme,
+  colors: {
+    ...NavigationDefaultDarkTheme.colors,
+    card: '#37474F',
   },
 };
