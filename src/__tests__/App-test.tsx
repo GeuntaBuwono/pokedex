@@ -15,7 +15,9 @@ describe('App', () => {
   );
   it('renders correctly', () => {
     render(wrapper);
-    expect(screen.getByText('Homepage')).toBeTruthy();
+    expect(
+      screen.getByText('Thousands of data compiled into one place'),
+    ).toBeTruthy();
   });
 
   it('theming correctly', () => {

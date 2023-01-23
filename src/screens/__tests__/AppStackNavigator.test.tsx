@@ -18,6 +18,8 @@ describe('App Stack Navigator', () => {
     );
 
     render(component);
-    expect(screen.getByText('Homepage')).toBeTruthy();
+    expect(
+      screen.getByText('Thousands of data compiled into one place'),
+    ).toBeTruthy();
   });
 });
