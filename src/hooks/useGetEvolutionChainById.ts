@@ -10,7 +10,7 @@ const TransformedResponseEvolution = z.array(
   z.object({
     species_name: z.string(),
     min_level: z.number(),
-    trigger_name: z.null(),
+    trigger_name: z.string().nullish(),
     item: z.null(),
   }),
 );
