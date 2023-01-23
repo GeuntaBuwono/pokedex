@@ -21,6 +21,24 @@ type NavigationLoginScreenProps = NativeStackNavigationProp<
   'Homepage'
 >;
 
+const ListHeaderComponent = ({dataCount}: {dataCount: number}) => (
+  <View
+    style={{
+      justifyContent: 'center',
+      marginVertical: 24,
+      paddingHorizontal: 24,
+    }}>
+    <Label $textAlign="center" $isBold $size="lg">
+      PokèDex
+    </Label>
+    {dataCount && (
+      <Label $textAlign="center">
+        All Generation totaling {String(dataCount)} Pokemon
+      </Label>
+    )}
+  </View>
+);
+
 function HomepageScreen() {
   const [offset] = useState(5);
   const [isUserCheckedPokedex, setIsUserCheckedPokedex] = useState(false);
@@ -48,6 +66,10 @@ function HomepageScreen() {
         }}>
         {!isLoading && data ? (
           <FlashList
+            keyExtractor={item => item.name}
+            ListHeaderComponent={() => (
+              <ListHeaderComponent dataCount={data.count} />
+            )}
             nestedScrollEnabled
             data={data?.results}
             estimatedItemSize={200}
