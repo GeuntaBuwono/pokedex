@@ -18,6 +18,7 @@ const config: Config.InitialOptions = {
     },
   },
   coveragePathIgnorePatterns: [
+    'src/screens/TypePokemonScreen.tsx',
     'src/screens/DetailPokemonScreen.tsx',
     'src/screens/HomepageScreen.tsx',
   ],

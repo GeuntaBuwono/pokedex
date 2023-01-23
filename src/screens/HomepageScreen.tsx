@@ -48,7 +48,7 @@ const ListHeaderComponent = ({dataCount}: {dataCount: number}) => (
   </View>
 );
 
-type NavigationLoginScreenProps = NativeStackNavigationProp<
+type NavigationHomepageScreenProps = NativeStackNavigationProp<
   RootStackParamList,
   'Homepage'
 >;
@@ -59,7 +59,7 @@ function HomepageScreen() {
   const {t} = useTranslation(['homepage']);
   const {list, screen} = useTheme();
 
-  const navigation = useNavigation<NavigationLoginScreenProps>();
+  const navigation = useNavigation<NavigationHomepageScreenProps>();
   const [selectedCard, setSelectedCard] = useState<PokemonResults>();
   const [offset] = useState(5);
   const [isUserCheckedPokedex, setIsUserCheckedPokedex] = useState(false);

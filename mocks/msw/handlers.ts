@@ -77,12 +77,6 @@ export const expectedDataListPokemonByType: ResponseGetPokemonListByType = {
     name: 'generation-i',
     url: 'https://pokeapi.co/api/v2/generation/1/',
   },
-  move_damage_class: [
-    {
-      name: 'physical',
-      url: 'https://pokeapi.co/api/v2/move-damage-class/2/',
-    },
-  ],
 };
 
 export const expectDataDetailPokemon: ResponseGetDetailPokemon = {
@@ -372,7 +366,7 @@ export const handlers = [
   rest.get('https://pokeapi.co/api/v2/type', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonType)),
   ),
-  rest.get('https://pokeapi.co/api/v2/type/1', (req, res, ctx) =>
+  rest.get('https://pokeapi.co/api/v2/type/normal', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonByType)),
   ),
   rest.get('https://pokeapi.co/api/v2/evolution-chain/1', (req, res, ctx) =>

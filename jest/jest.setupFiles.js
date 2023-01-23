@@ -10,6 +10,7 @@ jest.mock('@react-navigation/native', () => ({
   useRoute: () => ({
     params: {
       pokemonId: '1',
+      pokemonType: 'normal',
     },
   }),
   useNavigation: () => ({

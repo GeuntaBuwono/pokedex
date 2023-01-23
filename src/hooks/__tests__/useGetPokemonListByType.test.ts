@@ -9,7 +9,7 @@ describe('useGetListPokemonByType', () => {
     const {result} = renderHook(
       () =>
         useGetPokemonListByType({
-          id: '1',
+          type: 'normal',
         }),
       {wrapper},
     );

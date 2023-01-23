@@ -6,6 +6,7 @@ import LoadingSpinner from 'components/Loading';
 import {useGetPokemonDetail} from 'hooks/useGetDetailPokemon';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
+import {useTranslation} from 'react-i18next';
 import {Image, View} from 'react-native';
 import styled from 'styled-components/native';
 
@@ -65,6 +66,7 @@ type DetailPokemonRouteProp = RouteProp<RootStackParamList, 'DetailPokemon'>;
 
 function DetailPokemonScreen() {
   const route = useRoute<DetailPokemonRouteProp>();
+  const {t} = useTranslation(['detailPokemon']);
 
   const {data, isLoading, isError} = useGetPokemonDetail({
     id: route.params.pokemonId,
@@ -98,15 +100,15 @@ function DetailPokemonScreen() {
         </StyledSection>
         <StyledSection>
           <StyledDescriptionItemWrapper>
-            <Label $isBold>Weight :</Label>
+            <Label $isBold>{t('detailPokemon:Weight')}</Label>
             {data?.weight && <Label>{data?.weight}</Label>}
           </StyledDescriptionItemWrapper>
           <StyledDescriptionItemWrapper>
-            <Label $isBold>Height :</Label>
+            <Label $isBold>{t('detailPokemon:Height')}</Label>
             {data?.height && <Label>{data?.height}</Label>}
           </StyledDescriptionItemWrapper>
           <StyledDescriptionItemWrapper>
-            <Label $isBold>Abilities :</Label>
+            <Label $isBold>{t('detailPokemon:Abilities')}</Label>
             <View>
               {data?.abilities.map(abilitiy => (
                 <Label key={abilitiy.ability.name}>
@@ -118,7 +120,7 @@ function DetailPokemonScreen() {
           </StyledDescriptionItemWrapper>
 
           <StyledDescriptionItemWrapper>
-            <Label $isBold>Type :</Label>
+            <Label $isBold>{t('detailPokemon:Type')}</Label>
             <StyledDescriptionItemWrapper gap={20}>
               {data?.types.map((type, index) => {
                 if (index % 2 === 0 && index < 4) {
@@ -155,7 +157,7 @@ function DetailPokemonScreen() {
           </View> 
         */}
         <StyledSection>
-          <Label $isBold>Stats :</Label>
+          <Label $isBold>{t('detailPokemon:Stats')}</Label>
           <StyledStatsWrapper>
             {data?.stats.map((stat, index) => {
               if (index % 2 === 0) {
@@ -196,7 +198,7 @@ function DetailPokemonScreen() {
           </StyledStatsWrapper>
         </StyledSection>
         <StyledSection>
-          <Label $isBold>Evolutions :</Label>
+          <Label $isBold>{t('detailPokemon:Evolutions')}</Label>
           <StyledStatsWrapper>
             {data?.sprites.versions['generation-i'].yellow.front_default && (
               <EvolutionItem
@@ -240,11 +242,7 @@ function DetailPokemonScreen() {
     );
   }
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  return <Label>Error</Label>;
+  return <LoadingSpinner />;
 }
 
 export default DetailPokemonScreen;

@@ -1,10 +1,10 @@
-import {QueryKey, useQuery} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import {PokemonResultsSchema} from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
 import {z} from 'zod';
 
 const ParamsGetPokemonListByTypeSchema = z.object({
-  id: z.string(),
+  type: z.string(),
 });
 
 const ResponseGetPokemonListByTypeSchema = z.object({
@@ -24,7 +24,6 @@ const ResponseGetPokemonListByTypeSchema = z.object({
   ),
   generation: PokemonResultsSchema,
   id: z.number(),
-  move_damage_class: PokemonResultsSchema.optional().array(),
   moves: PokemonResultsSchema.optional().array(),
   name: z.string(),
   names: z.array(
@@ -51,12 +50,11 @@ export type ResponseGetPokemonListByType = z.infer<
 
 export function useGetPokemonListByType<
   T extends z.infer<typeof ParamsGetPokemonListByTypeSchema>,
->(id: T) {
-  return useQuery<unknown, Error, unknown, QueryKey>({
-    queryKey: ['pokemonListByType', id],
-    queryFn: async ({queryKey: [, variables]}) => {
-      const {id: keyId} = variables as {id: string};
-      const response = await axiosInstance.get(`/type/${keyId}`);
+>(props: T) {
+  return useQuery({
+    queryKey: ['pokemonListByType', props.type],
+    queryFn: async ({queryKey: [, id]}) => {
+      const response = await axiosInstance.get(`/type/${id}`);
       return ResponseGetPokemonListByTypeSchema.parse(response.data);
     },
   });

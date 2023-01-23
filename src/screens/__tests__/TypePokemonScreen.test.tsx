@@ -1,22 +1,17 @@
 import 'react-native';
 
-import {fireEvent, render, screen} from '@testing-library/react-native';
+import {render, screen} from '@testing-library/react-native';
 import React from 'react';
 import TypePokemonScreen from 'screens/TypePokemonScreen';
 import TestingWrapper from 'utils/TestingWrapper';
 
-import {mockedNavigate} from '../../../jest/jest.setupFiles';
-
 describe('Type Pokemon Screen', () => {
-  test('renders correctly', () => {
+  test('renders correctly', async () => {
     render(
       <TestingWrapper>
         <TypePokemonScreen />
       </TestingWrapper>,
     );
-    expect(screen.getByText('Type Pokemon')).toBeTruthy();
-
-    fireEvent.press(screen.getByText('Go To Detail Pikachu'));
-    expect(mockedNavigate).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('Pokemon with Type normal')).toBeTruthy();
   });
 });
