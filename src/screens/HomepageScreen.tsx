@@ -6,6 +6,7 @@ import Button from 'components/Button';
 import CardItem from 'components/Card';
 import Label from 'components/Label';
 import ListFooter from 'components/ListFooter';
+import LoadingSpinner from 'components/Loading';
 import {useGetPokemonList} from 'hooks/useGetPokemonList';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useState} from 'react';
@@ -28,7 +29,7 @@ function HomepageScreen() {
 
   const navigation = useNavigation<NavigationLoginScreenProps>();
 
-  const {data} = useGetPokemonList({
+  const {data, isLoading} = useGetPokemonList({
     limit: 5,
     offset,
   });
@@ -45,27 +46,31 @@ function HomepageScreen() {
           height: Dimensions.get('screen').height - 50,
           backgroundColor: list.background.color,
         }}>
-        <FlashList
-          nestedScrollEnabled
-          data={data?.results}
-          estimatedItemSize={200}
-          contentContainerStyle={{
-            padding: 45,
-          }}
-          ItemSeparatorComponent={
-            /* istanbul ignore next */
-            () => <View style={{marginVertical: 25}} />
-          }
-          renderItem={({item, index}) => (
-            /* istanbul ignore next */
-            <CardItem item={item} index={index} navigation={navigation} />
-          )}
-          // TODO add loadmore
-          ListFooterComponent={() => <ListFooter onPress={handleLoadMore} />}
-          ListFooterComponentStyle={{
-            marginVertical: 50,
-          }}
-        />
+        {!isLoading && data ? (
+          <FlashList
+            nestedScrollEnabled
+            data={data?.results}
+            estimatedItemSize={200}
+            contentContainerStyle={{
+              padding: 45,
+            }}
+            ItemSeparatorComponent={
+              /* istanbul ignore next */
+              () => <View style={{marginVertical: 25}} />
+            }
+            renderItem={({item, index}) => (
+              /* istanbul ignore next */
+              <CardItem item={item} index={index} navigation={navigation} />
+            )}
+            // TODO add loadmore
+            ListFooterComponent={() => <ListFooter onPress={handleLoadMore} />}
+            ListFooterComponentStyle={{
+              marginVertical: 50,
+            }}
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
       </View>
     );
   }
