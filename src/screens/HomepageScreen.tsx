@@ -56,7 +56,7 @@ type NavigationHomepageScreenProps = NativeStackNavigationProp<
 function HomepageScreen() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['30%', '60%', '90%'], []);
-  const {t} = useTranslation(['homepage']);
+  const {t} = useTranslation(['homepage', 'detailPokemon']);
   const {list, screen} = useTheme();
 
   const navigation = useNavigation<NavigationHomepageScreenProps>();
@@ -191,19 +191,19 @@ function HomepageScreen() {
                   </StyledSection>
                   <StyledSection>
                     <StyledDescriptionItemWrapper>
-                      <Label $isBold>Weight :</Label>
+                      <Label $isBold>{t('detailPokemon:Weight')}</Label>
                       {!!dataForBottomDetail?.weight && (
                         <Label>{dataForBottomDetail?.weight}</Label>
                       )}
                     </StyledDescriptionItemWrapper>
                     <StyledDescriptionItemWrapper>
-                      <Label $isBold>Height :</Label>
+                      <Label $isBold>{t('detailPokemon:Height')}</Label>
                       {!!dataForBottomDetail?.height && (
                         <Label>{dataForBottomDetail?.height}</Label>
                       )}
                     </StyledDescriptionItemWrapper>
                     <StyledDescriptionItemWrapper>
-                      <Label $isBold>Abilities :</Label>
+                      <Label $isBold>{t('detailPokemon:Abilities')}</Label>
                       <View>
                         {dataForBottomDetail?.abilities.map(abilitiy => (
                           <Label key={abilitiy.ability.name}>
@@ -215,7 +215,7 @@ function HomepageScreen() {
                     </StyledDescriptionItemWrapper>
 
                     <StyledDescriptionItemWrapper>
-                      <Label $isBold>Type :</Label>
+                      <Label $isBold>{t('detailPokemon:Type')}</Label>
                       <StyledDescriptionItemWrapper gap={20}>
                         {dataForBottomDetail?.types.map((type, index) => {
                           if (index % 2 === 0 && index < 4) {
