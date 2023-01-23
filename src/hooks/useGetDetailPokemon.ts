@@ -167,12 +167,11 @@ export type ResponseGetDetailPokemon = z.infer<
 
 export function useGetPokemonDetail<
   T extends z.infer<typeof ParamsGetPokemonDetailSchema>,
->(id: T) {
+>(props: T) {
   return useQuery({
-    queryKey: ['pokemonDetail', id],
-    queryFn: async ({queryKey: [, variables]}) => {
-      const {id: keyId} = variables as {id: string};
-      const response = await axiosInstance.get(`/pokemon/${keyId}`);
+    queryKey: ['pokemonDetail', props.id],
+    queryFn: async ({queryKey: [, id]}) => {
+      const response = await axiosInstance.get(`/pokemon/${id}`);
       return ResponseGetPokemonDetailSchema.parse(response.data);
     },
   });

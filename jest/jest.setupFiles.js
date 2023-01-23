@@ -9,7 +9,7 @@ jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useRoute: () => ({
     params: {
-      id: '123',
+      pokemonId: '1',
     },
   }),
   useNavigation: () => ({
