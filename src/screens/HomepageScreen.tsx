@@ -32,7 +32,7 @@ const ListHeaderComponent = ({dataCount}: {dataCount: number}) => (
     <Label $textAlign="center" $isBold $size="lg">
       {i18next.t('homepage:list.PokèDex')}
     </Label>
-    {dataCount && (
+    {!!dataCount && (
       <Label $textAlign="center">
         {i18next.t('homepage:list.All Generation totaling')} {String(dataCount)}
         {i18next.t('homepage:list.Pokemon')}
