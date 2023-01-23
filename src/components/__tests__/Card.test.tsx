@@ -15,7 +15,7 @@ const ITEM_DATA: PokemonResults = {
 describe('Badge', () => {
   render(
     <TestingWrapper>
-      <CardItem index={1} item={ITEM_DATA} />
+      <CardItem index={1} item={ITEM_DATA} onPress={() => undefined} />
     </TestingWrapper>,
   );
   test('renders correctly', () => {

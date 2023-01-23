@@ -1,7 +1,5 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {PokemonResults} from 'schema/PokemonSchema';
-import {RootStackParamList} from 'screens/AppStackNavigator';
 import styled from 'styled-components';
 
 import Badge from './Badge';
@@ -28,19 +26,14 @@ const StyledBadgeWrapper = styled(View)`
 function CardItem({
   item,
   index,
-  navigation,
+  onPress,
 }: {
   item: PokemonResults;
   index: number;
-  navigation?: NativeStackNavigationProp<RootStackParamList, 'Homepage'>;
+  onPress: () => void;
 }) {
   return (
-    <StyledCardItem
-      onPress={() => {
-        navigation?.navigate('DetailPokemon', {
-          pokemonId: item.name,
-        });
-      }}>
+    <StyledCardItem onPress={onPress}>
       <View>
         <StyledCardItemImage
           resizeMode="contain"
@@ -50,7 +43,7 @@ function CardItem({
         />
       </View>
       <Label $size="sm" $color="#B3B6B8" $isBold>
-        #{String(index)}
+        #{String(index + 1)}
       </Label>
       <Label $textTransform="capitalize" $isBold>
         {item.name}

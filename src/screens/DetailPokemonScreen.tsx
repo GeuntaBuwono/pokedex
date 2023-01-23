@@ -1,3 +1,4 @@
+import {RouteProp, useRoute} from '@react-navigation/native';
 import Badge from 'components/Badge';
 import StyledImage from 'components/Image';
 import Label from 'components/Label';
@@ -8,7 +9,9 @@ import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {Image, View} from 'react-native';
 import styled from 'styled-components/native';
 
-const StyledSection = styled.View`
+import {RootStackParamList} from './AppStackNavigator';
+
+export const StyledSection = styled.View`
   row-gap: 18px;
   padding: 16px 0px;
 `;
@@ -53,14 +56,18 @@ const EvolutionItem = ({imageUri, name}: {imageUri?: string; name: string}) => (
   </View>
 );
 
-const StyledDescriptionItemWrapper = styled(View)<{gap?: number}>`
+export const StyledDescriptionItemWrapper = styled(View)<{gap?: number}>`
   flex-direction: row;
   gap: ${props => `${props.gap || 20}px`};
 `;
 
+type DetailPokemonRouteProp = RouteProp<RootStackParamList, 'DetailPokemon'>;
+
 function DetailPokemonScreen() {
+  const route = useRoute<DetailPokemonRouteProp>();
+
   const {data, isLoading, isError} = useGetPokemonDetail({
-    id: '1',
+    id: route.params.pokemonId,
   });
 
   if (!isLoading || !isError || data) {
@@ -82,7 +89,7 @@ function DetailPokemonScreen() {
                 width: '100%',
                 height: 300,
               }}
-              resizeMode="cover"
+              resizeMode="contain"
               source={{
                 uri: data?.sprites.other['official-artwork'].front_default,
               }}
