@@ -4,6 +4,12 @@
 
 # How To
 
+## Running on iOS
+
+- run `npx pod-install ios`
+- run `yarn start`
+- press `i` for running on iOS
+
 ## Link React Native Assets
 
 - add to `<root>/assets`
