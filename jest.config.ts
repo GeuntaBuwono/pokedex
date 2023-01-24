@@ -25,9 +25,12 @@ const config: Config.InitialOptions = {
   testPathIgnorePatterns: [
     'src/__tests__/App.test.tsx',
     'src/screens/__tests__/DetailPokemonScreen.test.tsx',
+    'src/navigators/__tests__/AppStackNavigator.test.tsx',
+    'src/screens/__tests__/HomepageScreen.test.tsx',
+    'src/navigators/__tests__/AppDrawerNavigator.test.tsx',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|rollbar-react-native|@fortawesome|@react-native|@react-navigation)',
+    'node_modules/(?!(jest-)?react-native|@react-native-community|@react-native|@react-navigation|react-native-animated)',
   ],
 };
 

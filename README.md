@@ -14,3 +14,7 @@
 
 - add to `<root>/assets`
 - run `npx react-native-asset`
+
+## Known Issue
+
+- [TypeError: \_reactNativeReanimated.default.Value is not a constructor](https://github.com/software-mansion/react-native-reanimated/issues/910)

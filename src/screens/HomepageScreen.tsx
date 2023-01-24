@@ -16,11 +16,16 @@ import ListFooter from 'components/ListFooter';
 import LoadingSpinner from 'components/Loading';
 import i18next from 'i18next';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
-import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {RootStackParamList} from 'navigators/AppStackNavigator';
-import {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Dimensions, Image, View} from 'react-native';
+import {Dimensions, Image, ScrollView, View} from 'react-native';
+import {
+  scrollTo,
+  useAnimatedRef,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
 import {
   ParamsGetPokemonList,
   PokemonResults,
@@ -48,7 +53,8 @@ const ListHeaderComponent = ({dataCount}: {dataCount: number}) => (
     </Label>
     {!!dataCount && (
       <Label $textAlign="center">
-        {i18next.t('homepage:list.All Generation totaling')} {String(dataCount)}
+        {i18next.t('homepage:list.All Generation totaling')}
+        {String(dataCount)}
         {i18next.t('homepage:list.Pokemon')}
       </Label>
     )}
@@ -70,7 +76,6 @@ function HomepageScreen() {
   const navigation = useNavigation<NavigationHomepageScreenProps>();
   const [selectedCard, setSelectedCard] = useState<PokemonResults>();
   const [offset, setOffset] = useState(5);
-  const [isUserCheckedPokedex, setIsUserCheckedPokedex] = useState(false);
 
   const {data: dataPokemon} = useQuery<
     ParamsGetPokemonList,
@@ -137,205 +142,212 @@ function HomepageScreen() {
     [],
   );
 
-  if (isUserCheckedPokedex) {
-    return (
-      <View
-        style={{
-          height: Dimensions.get('screen').height - 50,
-          backgroundColor: list.background.color,
-        }}>
-        {data?.length > 0 ? (
-          <FlashList
-            keyExtractor={item => item.name}
-            ListHeaderComponent={() => (
-              <ListHeaderComponent dataCount={dataPokemon?.count || 0} />
-            )}
-            nestedScrollEnabled
-            data={data}
-            estimatedItemSize={200}
-            contentContainerStyle={{
-              padding: 45,
-            }}
-            ItemSeparatorComponent={
-              /* istanbul ignore next */
-              () => <View style={{marginVertical: 25}} />
-            }
-            renderItem={({item, index}) => (
-              /* istanbul ignore next */
-              <CardItem
-                item={item}
-                index={index}
-                onPress={() => {
-                  handleSnapPress(2);
-                  setSelectedCard(item);
-                }}
-              />
-            )}
-            // TODO add loadmore
-            ListFooterComponent={() => <ListFooter onPress={handleLoadMore} />}
-            ListFooterComponentStyle={{
-              marginVertical: 50,
-            }}
-          />
-        ) : (
-          <LoadingSpinner />
-        )}
-        <BottomSheet
-          enablePanDownToClose
-          ref={bottomSheetRef}
-          index={-1}
-          backdropComponent={renderBackdrop}
-          backgroundStyle={{
-            backgroundColor: screen.background.color,
-          }}
-          handleStyle={{
-            backgroundColor: screen.background.color,
-            borderTopEndRadius: 50,
-            borderTopStartRadius: 50,
-          }}
-          snapPoints={snapPoints}>
-          <BottomSheetScrollView
-            contentContainerStyle={{
-              paddingBottom: 100,
-              backgroundColor: screen.background.color,
-            }}>
-            {!isLoadingDetailPokemon && dataForBottomDetail ? (
-              <>
-                <View style={{padding: 24}}>
-                  {!!dataForBottomDetail?.name && (
-                    <Label $size="xl" $textTransform="capitalize" $isBold>
-                      {dataForBottomDetail?.name}
-                    </Label>
-                  )}
-                </View>
-                <ScreenViewLayout>
-                  <StyledSection>
-                    {dataForBottomDetail?.sprites.other['official-artwork']
-                      .front_default && (
-                      <Image
-                        style={{
-                          height: 300,
-                          width: 250,
-                        }}
-                        resizeMode="contain"
-                        source={{
-                          uri: dataForBottomDetail?.sprites.other[
-                            'official-artwork'
-                          ].front_default,
-                        }}
-                      />
-                    )}
-                  </StyledSection>
-                  <StyledSection>
-                    <StyledDescriptionItemWrapper>
-                      <Label $isBold>{t('detailPokemon:Weight')}</Label>
-                      {!!dataForBottomDetail?.weight && (
-                        <Label>{dataForBottomDetail?.weight}</Label>
-                      )}
-                    </StyledDescriptionItemWrapper>
-                    <StyledDescriptionItemWrapper>
-                      <Label $isBold>{t('detailPokemon:Height')}</Label>
-                      {!!dataForBottomDetail?.height && (
-                        <Label>{dataForBottomDetail?.height}</Label>
-                      )}
-                    </StyledDescriptionItemWrapper>
-                    <StyledDescriptionItemWrapper>
-                      <Label $isBold>{t('detailPokemon:Abilities')}</Label>
-                      <View>
-                        {dataForBottomDetail?.abilities.map(abilitiy => (
-                          <Label key={abilitiy.ability.name}>
-                            {'\u00B7' + ' '} {abilitiy.ability.name}
-                            {abilitiy.is_hidden ? ' (hidden)' : ''}
-                          </Label>
-                        ))}
-                      </View>
-                    </StyledDescriptionItemWrapper>
+  const aref = useAnimatedRef<ScrollView>();
+  const scroll = useSharedValue(0);
 
-                    <StyledDescriptionItemWrapper>
-                      <Label $isBold>{t('detailPokemon:Type')}</Label>
-                      <StyledDescriptionItemWrapper gap={20}>
-                        {dataForBottomDetail?.types.map((type, index) => {
-                          if (index % 2 === 0 && index < 4) {
-                            return (
-                              <Badge
-                                key={type.type.name}
-                                label={type.type.name}
-                                $bgColor="red"
-                              />
-                            );
-                          }
-                        })}
-                      </StyledDescriptionItemWrapper>
-                      <StyledDescriptionItemWrapper gap={20}>
-                        {dataForBottomDetail?.types.map((type, index) => {
-                          if (index % 2 !== 0 && index < 4) {
-                            return (
-                              <Badge
-                                key={type.type.name}
-                                label={type.type.name}
-                                $bgColor="red"
-                              />
-                            );
-                          }
-                        })}
-                      </StyledDescriptionItemWrapper>
-                    </StyledDescriptionItemWrapper>
-                  </StyledSection>
-                  <View style={{marginTop: 32, flexDirection: 'row'}}>
-                    <Button
-                      onPress={() => {
-                        navigation.navigate('DetailPokemon', {
-                          pokemonId: dataForBottomDetail.name,
-                        });
-                      }}>
-                      {t('homepage:button.More Detail')}
-                    </Button>
-                  </View>
-                </ScreenViewLayout>
-              </>
-            ) : (
-              <LoadingSpinner />
-            )}
-          </BottomSheetScrollView>
-        </BottomSheet>
-      </View>
-    );
-  }
+  useDerivedValue(() => {
+    scrollTo(aref, 0, scroll.value * 100, true);
+  });
 
   return (
-    <ScrollViewLayout isNoPadding>
-      <View
-        style={{
-          paddingHorizontal: 36,
-          paddingVertical: 40,
-          height: Dimensions.get('screen').height - 100,
-        }}>
-        <View style={{alignItems: 'flex-end'}}>
-          <Image
-            style={{
-              height: 300,
-              width: 250,
-            }}
-            source={require('../images/homepage-banner.png')}
-          />
-        </View>
-        <View style={{gap: 16}}>
-          <Label $size="lg" $isBold>
-            {t('homepage:welcome')}
-          </Label>
-          <Label>{t('homepage:description')}</Label>
-        </View>
+    <>
+      <ScrollView ref={aref}>
+        <View
+          style={{
+            paddingHorizontal: 36,
+            paddingVertical: 40,
+            height: Dimensions.get('screen').height - 100,
+          }}>
+          <View style={{alignItems: 'flex-end'}}>
+            <Image
+              style={{
+                height: 300,
+                width: 250,
+              }}
+              source={require('../images/homepage-banner.png')}
+            />
+          </View>
+          <View style={{gap: 16}}>
+            <Label $size="lg" $isBold>
+              {t('homepage:welcome')}
+            </Label>
+            <Label>{t('homepage:description')}</Label>
+          </View>
 
-        <View style={{marginTop: 32, flexDirection: 'row'}}>
-          <Button
-            onPress={() => {
-              setIsUserCheckedPokedex(!isUserCheckedPokedex);
-            }}>
-            {t('homepage:button.Check PokèDex')}
-          </Button>
+          <View style={{marginTop: 32, flexDirection: 'row'}}>
+            <Button
+              onPress={() => {
+                scroll.value = scroll.value + 50;
+                if (scroll.value >= 10) scroll.value = 0;
+              }}>
+              {t('homepage:button.Check PokèDex')}
+            </Button>
+          </View>
         </View>
-      </View>
-    </ScrollViewLayout>
+        <View
+          style={{
+            height: Dimensions.get('screen').height - 50,
+            backgroundColor: list.background.color,
+          }}>
+          {data?.length > 0 ? (
+            <FlashList
+              keyExtractor={item => item.name}
+              ListHeaderComponent={() => (
+                <ListHeaderComponent dataCount={dataPokemon?.count || 0} />
+              )}
+              nestedScrollEnabled
+              data={data}
+              estimatedItemSize={200}
+              contentContainerStyle={{
+                padding: 45,
+              }}
+              ItemSeparatorComponent={
+                /* istanbul ignore next */
+                () => <View style={{marginVertical: 25}} />
+              }
+              renderItem={({item, index}) => (
+                /* istanbul ignore next */
+                <CardItem
+                  item={item}
+                  index={index}
+                  onPress={() => {
+                    handleSnapPress(2);
+                    setSelectedCard(item);
+                  }}
+                />
+              )}
+              // TODO add loadmore
+              ListFooterComponent={() => (
+                <ListFooter onPress={handleLoadMore} />
+              )}
+              ListFooterComponentStyle={{
+                marginVertical: 50,
+              }}
+            />
+          ) : (
+            <LoadingSpinner />
+          )}
+          <BottomSheet
+            enablePanDownToClose
+            ref={bottomSheetRef}
+            index={-1}
+            backdropComponent={renderBackdrop}
+            backgroundStyle={{
+              backgroundColor: screen.background.color,
+            }}
+            handleStyle={{
+              backgroundColor: screen.background.color,
+              borderTopEndRadius: 50,
+              borderTopStartRadius: 50,
+            }}
+            snapPoints={snapPoints}>
+            <BottomSheetScrollView
+              contentContainerStyle={{
+                paddingBottom: 50,
+                backgroundColor: screen.background.color,
+              }}>
+              {!isLoadingDetailPokemon && dataForBottomDetail ? (
+                <>
+                  <View style={{padding: 24}}>
+                    {!!dataForBottomDetail?.name && (
+                      <Label $size="xl" $textTransform="capitalize" $isBold>
+                        {dataForBottomDetail?.name}
+                      </Label>
+                    )}
+                  </View>
+                  <ScreenViewLayout>
+                    <StyledSection>
+                      {dataForBottomDetail?.sprites.other['official-artwork']
+                        .front_default && (
+                        <Image
+                          style={{
+                            height: 300,
+                            width: 250,
+                          }}
+                          resizeMode="contain"
+                          source={{
+                            uri: dataForBottomDetail?.sprites.other[
+                              'official-artwork'
+                            ].front_default,
+                          }}
+                        />
+                      )}
+                    </StyledSection>
+                    <StyledSection>
+                      <StyledDescriptionItemWrapper>
+                        <Label $isBold>{t('detailPokemon:Weight')}</Label>
+                        {!!dataForBottomDetail?.weight && (
+                          <Label>{dataForBottomDetail?.weight}</Label>
+                        )}
+                      </StyledDescriptionItemWrapper>
+                      <StyledDescriptionItemWrapper>
+                        <Label $isBold>{t('detailPokemon:Height')}</Label>
+                        {!!dataForBottomDetail?.height && (
+                          <Label>{dataForBottomDetail?.height}</Label>
+                        )}
+                      </StyledDescriptionItemWrapper>
+                      <StyledDescriptionItemWrapper>
+                        <Label $isBold>{t('detailPokemon:Abilities')}</Label>
+                        <View>
+                          {dataForBottomDetail?.abilities.map(abilitiy => (
+                            <Label key={abilitiy.ability.name}>
+                              {'\u00B7' + ' '} {abilitiy.ability.name}
+                              {abilitiy.is_hidden ? ' (hidden)' : ''}
+                            </Label>
+                          ))}
+                        </View>
+                      </StyledDescriptionItemWrapper>
+
+                      <StyledDescriptionItemWrapper>
+                        <Label $isBold>{t('detailPokemon:Type')}</Label>
+                        <StyledDescriptionItemWrapper gap={20}>
+                          {dataForBottomDetail?.types.map((type, index) => {
+                            if (index % 2 === 0 && index < 4) {
+                              return (
+                                <Badge
+                                  key={type.type.name}
+                                  label={type.type.name}
+                                  $bgColor="red"
+                                />
+                              );
+                            }
+                          })}
+                        </StyledDescriptionItemWrapper>
+                        <StyledDescriptionItemWrapper gap={20}>
+                          {dataForBottomDetail?.types.map((type, index) => {
+                            if (index % 2 !== 0 && index < 4) {
+                              return (
+                                <Badge
+                                  key={type.type.name}
+                                  label={type.type.name}
+                                  $bgColor="red"
+                                />
+                              );
+                            }
+                          })}
+                        </StyledDescriptionItemWrapper>
+                      </StyledDescriptionItemWrapper>
+                    </StyledSection>
+                    <View style={{marginTop: 32, flexDirection: 'row'}}>
+                      <Button
+                        onPress={() => {
+                          navigation.navigate('DetailPokemon', {
+                            pokemonId: dataForBottomDetail.name,
+                          });
+                        }}>
+                        {t('homepage:button.More Detail')}
+                      </Button>
+                    </View>
+                  </ScreenViewLayout>
+                </>
+              ) : (
+                <LoadingSpinner />
+              )}
+            </BottomSheetScrollView>
+          </BottomSheet>
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
