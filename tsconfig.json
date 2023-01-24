@@ -12,11 +12,12 @@
       "components/*": ["components/*"],
       "constants/*": ["constants/*"],
       "hooks/*": ["hooks/*"],
+      "images/*": ["images/*"],
       "layout/*": ["layout/*"],
+      "locales/*": ["locales/*"],
+      "navigators/*": ["navigators/*"],
       "screens/*": ["screens/*"],
       "services/*": ["services/*"],
-      "locales/*": ["locales/*"],
-      "images/*": ["images/*"],
       "utils/*": ["utils/*"]
     },
     "types": ["jest", "styled-components-react-native"]

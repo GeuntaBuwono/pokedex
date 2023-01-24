@@ -13,8 +13,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {themeAtom} from 'atoms/appAtom';
 import {useAtom} from 'jotai';
+import AppDrawerNavigator from 'navigators/AppDrawerNavigator';
 import React from 'react';
-import {AppStackNavigator} from 'screens/AppStackNavigator';
 import {ThemeProvider} from 'styled-components/native';
 import {darkTheme, NavigationDarkTheme} from 'styles/darkTheme';
 import {lightTheme, NavigationLightTheme} from 'styles/lightTheme';
@@ -30,15 +30,15 @@ function App(): JSX.Element {
         /* istanbul ignore next */
         isDarkMode ? darkTheme : lightTheme
       }>
-      <NavigationContainer
-        theme={
-          /* istanbul ignore next */
-          isDarkMode ? NavigationDarkTheme : NavigationLightTheme
-        }>
-        <QueryClientProvider client={queryClient}>
-          <AppStackNavigator />
-        </QueryClientProvider>
-      </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer
+          theme={
+            /* istanbul ignore next */
+            isDarkMode ? NavigationDarkTheme : NavigationLightTheme
+          }>
+          <AppDrawerNavigator />
+        </NavigationContainer>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

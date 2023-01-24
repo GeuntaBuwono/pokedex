@@ -16,6 +16,7 @@ import LoadingSpinner from 'components/Loading';
 import i18next from 'i18next';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
+import {RootStackParamList} from 'navigators/AppStackNavigator';
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, Image, Platform, ScrollView, View} from 'react-native';
@@ -29,7 +30,6 @@ import {axiosInstance} from 'services/axios.base';
 import {useTheme} from 'styled-components/native';
 import getJsonFromUrl from 'utils/getJsonFromUrl';
 
-import {RootStackParamList} from './AppStackNavigator';
 import {
   StyledDescriptionItemWrapper,
   StyledSection,

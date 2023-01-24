@@ -7,6 +7,7 @@ import Label from 'components/Label';
 import LoadingSpinner from 'components/Loading';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
+import {RootStackParamList} from 'navigators/AppStackNavigator';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image, TouchableOpacity, View} from 'react-native';
@@ -18,8 +19,6 @@ import {
 } from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
 import styled from 'styled-components/native';
-
-import {RootStackParamList} from './AppStackNavigator';
 
 export const StyledSection = styled.View`
   row-gap: 18px;

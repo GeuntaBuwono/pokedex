@@ -2,7 +2,6 @@
 import {ResponseGetPokemonListByType} from 'hooks/useGetPokemonListByType';
 import {rest} from 'msw';
 import {
-  PokemonSpecies,
   ResponseGetPokemonDetail,
   ResponseGetPokemonList,
 } from 'schema/PokemonSchema';
@@ -258,12 +257,6 @@ export const expectDataDetailPokemon: ResponseGetPokemonDetail = {
   weight: 60,
 };
 
-const expectedPokemonSpecies: PokemonSpecies = {
-  evolution_chain: {
-    url: 'https://pokeapi.co/api/v2/evolution-chain/1/',
-  },
-};
-
 export const handlers = [
   rest.get('https://pokeapi.co/api/v2', (req, res, ctx) =>
     res(
@@ -285,16 +278,10 @@ export const handlers = [
       }),
     );
   }),
-  rest.get('https://pokeapi.co/api/v2/pokemon/1', (req, res, ctx) =>
-    res(ctx.json(expectDataDetailPokemon)),
-  ),
   rest.get('https://pokeapi.co/api/v2/type', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonType)),
   ),
   rest.get('https://pokeapi.co/api/v2/type/normal', (req, res, ctx) =>
     res(ctx.json(expectedDataListPokemonByType)),
-  ),
-  rest.get('https://pokeapi.co/api/v2/pokemon-species/1', (req, res, ctx) =>
-    res(ctx.json(expectedPokemonSpecies)),
   ),
 ];

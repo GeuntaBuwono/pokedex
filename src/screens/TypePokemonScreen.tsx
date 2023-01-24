@@ -4,12 +4,12 @@ import {FlashList} from '@shopify/flash-list';
 import Badge from 'components/Badge';
 import Label from 'components/Label';
 import {useGetPokemonListByType} from 'hooks/useGetPokemonListByType';
+import {RootStackParamList} from 'navigators/AppStackNavigator';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, Image, TouchableOpacity, View} from 'react-native';
 import {PokemonResults} from 'schema/PokemonSchema';
 import {useTheme} from 'styled-components/native';
 
-import {RootStackParamList} from './AppStackNavigator';
 import {StyledDescriptionItemWrapper} from './DetailPokemonScreen';
 
 const CardItemType = ({

@@ -1,19 +1,17 @@
-import 'react-native';
 import 'jest-styled-components/native';
+import 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {fireEvent, render, screen} from '@testing-library/react-native';
+import AppDrawerNavigator from 'navigators/AppDrawerNavigator';
 import React from 'react';
-import {AppStackNavigator} from 'screens/AppStackNavigator';
 import TestingWrapper from 'utils/TestingWrapper';
 
-import {mockedNavigate} from '../../../jest/jest.setupFiles';
-
-describe('App Stack Navigator', () => {
+describe('App Drawer Navigator', () => {
   const component = (
     <TestingWrapper>
       <NavigationContainer>
-        <AppStackNavigator />
+        <AppDrawerNavigator />
       </NavigationContainer>
     </TestingWrapper>
   );
@@ -36,12 +34,5 @@ describe('App Stack Navigator', () => {
       'background-color',
       '#fff',
     );
-  });
-
-  test('right header correctly', () => {
-    render(component);
-
-    fireEvent.press(screen.getByTestId('rightHeader'));
-    expect(mockedNavigate).toHaveBeenCalledTimes(1);
   });
 });

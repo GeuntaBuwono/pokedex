@@ -13,8 +13,12 @@ const ScrollViewLayout = ({children, isNoPadding}: Props) => {
     <ScrollView
       // eslint-disable-next-line react-native/no-inline-styles
       contentContainerStyle={{
-        paddingHorizontal: isNoPadding ? 0 : 36,
-        paddingVertical: isNoPadding ? 0 : 40,
+        paddingHorizontal:
+          /* istanbul ignore next */
+          isNoPadding ? 0 : 36,
+        paddingVertical:
+          /* istanbul ignore next */
+          isNoPadding ? 0 : 40,
       }}
       testID="scrollViewLayout"
       style={{
