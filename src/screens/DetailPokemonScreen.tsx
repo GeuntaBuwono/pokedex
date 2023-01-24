@@ -1,5 +1,5 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {useQuery} from '@tanstack/react-query';
+import {useQueries, useQuery} from '@tanstack/react-query';
 import Badge from 'components/Badge';
 import StyledImage from 'components/Image';
 import Label from 'components/Label';
@@ -12,7 +12,7 @@ import {Image, View} from 'react-native';
 import {
   EvoDataType,
   PokemonSpecies,
-  ResponseGetPokemonDetail,
+  ResponseGetPokemonDetailSchema,
   TransformedResponseEvolution,
 } from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
@@ -85,23 +85,6 @@ function DetailPokemonScreen() {
   const [speciesId, setSpeciesId] = useState<string>();
   const {t} = useTranslation(['detailPokemon']);
 
-  const {data, isLoading, isError} = useQuery<
-    {id: string},
-    unknown,
-    ResponseGetPokemonDetail
-  >(
-    ['pokemonDetail', route.params.pokemonId],
-    async () => {
-      const response = await axiosInstance.get(
-        `/pokemon/${route.params.pokemonId}`,
-      );
-      return response.data;
-    },
-    {
-      enabled: !!route.params.pokemonId,
-    },
-  );
-
   useQuery<{id: string}, unknown, PokemonSpecies>(
     ['pokemonSpecies', route.params.pokemonId],
     async () => {
@@ -140,6 +123,84 @@ function DetailPokemonScreen() {
     },
     {enabled: !!speciesId},
   );
+
+  const [
+    {data, isError, isLoading},
+    {data: firstEvo},
+    {data: secondEvo},
+    {data: thirdEvo},
+  ] = useQueries({
+    queries: [
+      {
+        queryKey: ['pokemonDetail', route.params.pokemonId],
+        queryFn: async () => {
+          const response = await axiosInstance.get(
+            `/pokemon/${route.params.pokemonId}`,
+          );
+          return ResponseGetPokemonDetailSchema.parse(response.data);
+        },
+        enabled: !!route.params.pokemonId,
+      },
+      {
+        queryKey: [
+          'pokemonDetailEvolutions',
+          dataPokemonEvolution && dataPokemonEvolution[0].species_name,
+        ],
+        queryFn: async () => {
+          const response = await axiosInstance.get(
+            `/pokemon/${
+              dataPokemonEvolution && dataPokemonEvolution[0].species_name
+            }`,
+          );
+          return ResponseGetPokemonDetailSchema.parse(response.data);
+        },
+        enabled: !!(
+          dataPokemonEvolution && dataPokemonEvolution[0].species_name
+        ),
+      },
+      {
+        queryKey: [
+          'pokemonDetailEvolutions',
+          dataPokemonEvolution && dataPokemonEvolution[1].species_name,
+        ],
+        queryFn: async () => {
+          const response = await axiosInstance.get(
+            `/pokemon/${
+              dataPokemonEvolution && dataPokemonEvolution[1].species_name
+            }`,
+          );
+          return ResponseGetPokemonDetailSchema.parse(response.data);
+        },
+        enabled: !!(
+          dataPokemonEvolution && dataPokemonEvolution[1].species_name
+        ),
+      },
+      {
+        queryKey: [
+          'pokemonDetailEvolutions',
+          dataPokemonEvolution && dataPokemonEvolution[2].species_name,
+        ],
+        queryFn: async () => {
+          const response = await axiosInstance.get(
+            `/pokemon/${
+              dataPokemonEvolution && dataPokemonEvolution[2].species_name
+            }`,
+          );
+          return ResponseGetPokemonDetailSchema.parse(response.data);
+        },
+        enabled: !!(
+          dataPokemonEvolution && dataPokemonEvolution[2].species_name
+        ),
+      },
+    ],
+  });
+
+  const evolutionImageMapper: Record<string, string | undefined> = {
+    // eslint-disable-next-line sonarjs/no-duplicate-string
+    0: firstEvo?.sprites.other['official-artwork'].front_default,
+    1: secondEvo?.sprites.other['official-artwork'].front_default,
+    2: thirdEvo?.sprites.other['official-artwork'].front_default,
+  };
 
   if (!isLoading || !isError || data) {
     return (
@@ -269,11 +330,11 @@ function DetailPokemonScreen() {
         <StyledSection>
           <Label $isBold>{t('detailPokemon:Evolutions')}</Label>
           <StyledStatsWrapper>
-            {dataPokemonEvolution?.map(item => (
+            {dataPokemonEvolution?.map((item, index) => (
               <EvolutionItem
                 key={item.species_name}
                 name={item.species_name}
-                imageUri="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+                imageUri={evolutionImageMapper[index]}
               />
             ))}
           </StyledStatsWrapper>

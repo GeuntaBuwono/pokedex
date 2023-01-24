@@ -135,7 +135,7 @@ export const ResponseGetPokemonDetailSchema = z.object({
         })
         .nullable(),
       'official-artwork': z.object({
-        front_default: z.string().url().nullish(),
+        front_default: z.string().url(),
         front_shiny: z.string().url().nullish(),
       }),
     }),
