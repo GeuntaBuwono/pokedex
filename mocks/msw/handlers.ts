@@ -42,7 +42,6 @@ export const expectedDataListPokemonByType: ResponseGetPokemonListByType = {
       slot: 1,
     },
   ],
-  past_damage_relations: [],
   names: [
     {
       name: 'Normal',

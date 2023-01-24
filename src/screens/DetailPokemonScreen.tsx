@@ -1,4 +1,5 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useQueries, useQuery} from '@tanstack/react-query';
 import Badge from 'components/Badge';
 import StyledImage from 'components/Image';
@@ -8,7 +9,7 @@ import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {
   EvoDataType,
   PokemonSpecies,
@@ -79,11 +80,16 @@ export const StyledDescriptionItemWrapper = styled(View)<{gap?: number}>`
 `;
 
 type DetailPokemonRouteProp = RouteProp<RootStackParamList, 'DetailPokemon'>;
+type NavigationHomepageScreenProps = NativeStackNavigationProp<
+  RootStackParamList,
+  'DetailPokemon'
+>;
 
 function DetailPokemonScreen() {
   const route = useRoute<DetailPokemonRouteProp>();
   const [speciesId, setSpeciesId] = useState<string>();
   const {t} = useTranslation(['detailPokemon']);
+  const navigation = useNavigation<NavigationHomepageScreenProps>();
 
   useQuery<{id: string}, unknown, PokemonSpecies>(
     ['pokemonSpecies', route.params.pokemonId],
@@ -255,11 +261,15 @@ function DetailPokemonScreen() {
               {data?.types.map((type, index) => {
                 if (index % 2 === 0 && index < 4) {
                   return (
-                    <Badge
+                    <TouchableOpacity
                       key={type.type.name}
-                      label={type.type.name}
-                      $bgColor="red"
-                    />
+                      onPress={() => {
+                        navigation.navigate('TypePokemon', {
+                          pokemonType: type.type.name,
+                        });
+                      }}>
+                      <Badge label={type.type.name} $bgColor="red" />
+                    </TouchableOpacity>
                   );
                 }
               })}
@@ -268,11 +278,15 @@ function DetailPokemonScreen() {
               {data?.types.map((type, index) => {
                 if (index % 2 !== 0 && index < 4) {
                   return (
-                    <Badge
+                    <TouchableOpacity
                       key={type.type.name}
-                      label={type.type.name}
-                      $bgColor="red"
-                    />
+                      onPress={() => {
+                        navigation.navigate('TypePokemon', {
+                          pokemonType: type.type.name,
+                        });
+                      }}>
+                      <Badge label={type.type.name} $bgColor="red" />
+                    </TouchableOpacity>
                   );
                 }
               })}
@@ -331,11 +345,18 @@ function DetailPokemonScreen() {
           <Label $isBold>{t('detailPokemon:Evolutions')}</Label>
           <StyledStatsWrapper>
             {dataPokemonEvolution?.map((item, index) => (
-              <EvolutionItem
+              <TouchableOpacity
                 key={item.species_name}
-                name={item.species_name}
-                imageUri={evolutionImageMapper[index]}
-              />
+                onPress={() => {
+                  navigation.navigate('DetailPokemon', {
+                    pokemonId: item.species_name,
+                  });
+                }}>
+                <EvolutionItem
+                  name={item.species_name}
+                  imageUri={evolutionImageMapper[index]}
+                />
+              </TouchableOpacity>
             ))}
           </StyledStatsWrapper>
         </StyledSection>

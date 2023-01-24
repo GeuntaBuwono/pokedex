@@ -35,7 +35,6 @@ const ResponseGetPokemonListByTypeSchema = z.object({
       name: z.string(),
     }),
   ),
-  past_damage_relations: z.array(z.undefined()),
   pokemon: z.array(
     z.object({
       pokemon: PokemonResultsSchema,
