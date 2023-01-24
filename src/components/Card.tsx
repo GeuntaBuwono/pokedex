@@ -23,6 +23,18 @@ const StyledBadgeWrapper = styled(View)`
   gap: 8px;
 `;
 
+const POKEMON_TYPE_LIST = [
+  {
+    color: 'orange',
+  },
+  {
+    color: 'red',
+  },
+  {
+    color: 'green',
+  },
+];
+
 function CardItem({
   item,
   index,
@@ -49,9 +61,14 @@ function CardItem({
         {item.name}
       </Label>
       <StyledBadgeWrapper>
-        <Badge label="Type 1" $bgColor="orange" />
-        <Badge label="Type 2" $bgColor="red" />
-        <Badge label="Type 3" $bgColor="green" />
+        {POKEMON_TYPE_LIST.map((pokemon, indexPokemon) => (
+          <Badge
+            key={pokemon.color}
+            label={`Type ${indexPokemon + 1}`}
+            $bgColor={pokemon.color}
+            $size="sm"
+          />
+        ))}
       </StyledBadgeWrapper>
     </StyledCardItem>
   );
