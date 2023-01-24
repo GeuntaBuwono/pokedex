@@ -1,13 +1,15 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
+import {useQuery} from '@tanstack/react-query';
 import Badge from 'components/Badge';
 import StyledImage from 'components/Image';
 import Label from 'components/Label';
 import LoadingSpinner from 'components/Loading';
-import {useGetPokemonDetail} from 'hooks/useGetDetailPokemon';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useTranslation} from 'react-i18next';
 import {Image, View} from 'react-native';
+import {ResponseGetPokemonDetail} from 'schema/PokemonSchema';
+import {axiosInstance} from 'services/axios.base';
 import styled from 'styled-components/native';
 
 import {RootStackParamList} from './AppStackNavigator';
@@ -68,9 +70,22 @@ function DetailPokemonScreen() {
   const route = useRoute<DetailPokemonRouteProp>();
   const {t} = useTranslation(['detailPokemon']);
 
-  const {data, isLoading, isError} = useGetPokemonDetail({
-    id: route.params.pokemonId,
-  });
+  const {data, isLoading, isError} = useQuery<
+    {id: string},
+    unknown,
+    ResponseGetPokemonDetail
+  >(
+    ['pokemonDetail', route.params.pokemonId],
+    async () => {
+      const response = await axiosInstance.get(
+        `/pokemon/${route.params.pokemonId}`,
+      );
+      return response.data;
+    },
+    {
+      enabled: !!route.params.pokemonId,
+    },
+  );
 
   if (!isLoading || !isError || data) {
     return (

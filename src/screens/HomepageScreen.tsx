@@ -6,22 +6,28 @@ import BottomSheet, {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
+import {useQuery} from '@tanstack/react-query';
 import Badge from 'components/Badge';
 import Button from 'components/Button';
 import CardItem from 'components/Card';
 import Label from 'components/Label';
 import ListFooter from 'components/ListFooter';
 import LoadingSpinner from 'components/Loading';
-import {useGetPokemonDetail} from 'hooks/useGetDetailPokemon';
-import {useGetPokemonList} from 'hooks/useGetPokemonList';
 import i18next from 'i18next';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, Image, Platform, ScrollView, View} from 'react-native';
-import {PokemonResults} from 'schema/PokemonSchema';
+import {
+  ParamsGetPokemonList,
+  PokemonResults,
+  ResponseGetPokemonDetail,
+  ResponseGetPokemonList,
+} from 'schema/PokemonSchema';
+import {axiosInstance} from 'services/axios.base';
 import {useTheme} from 'styled-components/native';
+import getJsonFromUrl from 'utils/getJsonFromUrl';
 
 import {RootStackParamList} from './AppStackNavigator';
 import {
@@ -58,24 +64,62 @@ function HomepageScreen() {
   const snapPoints = useMemo(() => ['30%', '60%', '90%'], []);
   const {t} = useTranslation(['homepage', 'detailPokemon']);
   const {list, screen} = useTheme();
+  const [data, setData] = useState<Array<PokemonResults>>([]);
 
   const navigation = useNavigation<NavigationHomepageScreenProps>();
   const [selectedCard, setSelectedCard] = useState<PokemonResults>();
-  const [offset] = useState(5);
+  const [offset, setOffset] = useState(5);
   const [isUserCheckedPokedex, setIsUserCheckedPokedex] = useState(false);
 
-  const {data, isLoading} = useGetPokemonList({
-    limit: 5,
-    offset,
-  });
+  const {data: dataPokemon} = useQuery<
+    ParamsGetPokemonList,
+    unknown,
+    ResponseGetPokemonList
+  >(
+    ['pokemon', offset],
+    async ({queryKey: [, offsetResponse]}) => {
+      const response = await axiosInstance.get('/pokemon', {
+        params: {
+          limit: 5,
+          offset: offsetResponse,
+        },
+      });
+      return response.data;
+    },
+    {
+      onSuccess: ({results, next}) => {
+        if (next) {
+          const newArray: Array<PokemonResults> = [...data];
+
+          newArray.push(...results);
+          setData(newArray);
+        }
+      },
+    },
+  );
 
   const {data: dataForBottomDetail, isLoading: isLoadingDetailPokemon} =
-    useGetPokemonDetail({
-      id: selectedCard?.name || '1',
-    });
+    useQuery<{id: string}, unknown, ResponseGetPokemonDetail>(
+      ['pokemonDetail', selectedCard?.name],
+      async () => {
+        const response = await axiosInstance.get(
+          `/pokemon/${selectedCard?.name}`,
+        );
+        return response.data;
+      },
+      {
+        enabled: !!selectedCard?.name,
+      },
+    );
 
-  // TODO add loadmore
-  const handleLoadMore = () => undefined;
+  const handleLoadMore = useCallback(() => {
+    if (dataPokemon?.next) {
+      const nextParam = getJsonFromUrl({
+        url: dataPokemon?.next,
+      }) as {offset: number; limit: number};
+      setOffset(nextParam.offset);
+    }
+  }, [dataPokemon?.next]);
 
   const handleSnapPress = useCallback((index: number) => {
     bottomSheetRef.current?.snapToIndex(index);
@@ -101,14 +145,14 @@ function HomepageScreen() {
           height: Dimensions.get('screen').height - 50,
           backgroundColor: list.background.color,
         }}>
-        {!isLoading && data ? (
+        {data?.length > 0 ? (
           <FlashList
             keyExtractor={item => item.name}
             ListHeaderComponent={() => (
-              <ListHeaderComponent dataCount={data.count} />
+              <ListHeaderComponent dataCount={dataPokemon?.count || 0} />
             )}
             nestedScrollEnabled
-            data={data?.results}
+            data={data}
             estimatedItemSize={200}
             contentContainerStyle={{
               padding: 45,

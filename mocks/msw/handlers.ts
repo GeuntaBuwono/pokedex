@@ -1,8 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import {ResponseGetDetailPokemon} from 'hooks/useGetDetailPokemon';
 import {ResponseGetPokemonListByType} from 'hooks/useGetPokemonListByType';
 import {rest} from 'msw';
-import {ResponseGetPokemonList} from 'schema/PokemonSchema';
+import {
+  ResponseGetPokemonDetail,
+  ResponseGetPokemonList,
+} from 'schema/PokemonSchema';
 
 export const expectedDataListPokemon: ResponseGetPokemonList = {
   count: 20,
@@ -79,7 +81,7 @@ export const expectedDataListPokemonByType: ResponseGetPokemonListByType = {
   },
 };
 
-export const expectDataDetailPokemon: ResponseGetDetailPokemon = {
+export const expectDataDetailPokemon: ResponseGetPokemonDetail = {
   abilities: [
     {
       ability: {
@@ -347,7 +349,9 @@ export const handlers = [
     ),
   ),
   rest.get('https://pokeapi.co/api/v2/pokemon', (req, res, ctx) => {
+    /* istanbul ignore next */
     const offset = req.url.searchParams.get('offset') || 20;
+    /* istanbul ignore next */
     const limit = req.url.searchParams.get('limit') || 20;
 
     return res(
@@ -357,9 +361,6 @@ export const handlers = [
       }),
     );
   }),
-  rest.get('https://pokeapi.co/api/v2/pokemon/pikachu', (req, res, ctx) =>
-    res(ctx.json(expectDataDetailPokemon)),
-  ),
   rest.get('https://pokeapi.co/api/v2/pokemon/1', (req, res, ctx) =>
     res(ctx.json(expectDataDetailPokemon)),
   ),
