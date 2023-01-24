@@ -2,6 +2,7 @@
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
+  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -19,7 +20,7 @@ import ScrollViewLayout from 'layouts/ScrollViewLayout';
 import {RootStackParamList} from 'navigators/AppStackNavigator';
 import {useCallback, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Dimensions, Image, Platform, ScrollView, View} from 'react-native';
+import {Dimensions, Image, View} from 'react-native';
 import {
   ParamsGetPokemonList,
   PokemonResults,
@@ -136,8 +137,6 @@ function HomepageScreen() {
     [],
   );
 
-  const isAndroid = Platform.OS === 'android';
-
   if (isUserCheckedPokedex) {
     return (
       <View
@@ -167,14 +166,8 @@ function HomepageScreen() {
                 item={item}
                 index={index}
                 onPress={() => {
-                  if (isAndroid) {
-                    navigation.navigate('DetailPokemon', {
-                      pokemonId: item.name,
-                    });
-                  } else {
-                    handleSnapPress(2);
-                    setSelectedCard(item);
-                  }
+                  handleSnapPress(2);
+                  setSelectedCard(item);
                 }}
               />
             )}
@@ -201,7 +194,7 @@ function HomepageScreen() {
             borderTopStartRadius: 50,
           }}
           snapPoints={snapPoints}>
-          <ScrollView
+          <BottomSheetScrollView
             contentContainerStyle={{
               paddingBottom: 100,
               backgroundColor: screen.background.color,
@@ -303,7 +296,7 @@ function HomepageScreen() {
             ) : (
               <LoadingSpinner />
             )}
-          </ScrollView>
+          </BottomSheetScrollView>
         </BottomSheet>
       </View>
     );

@@ -14,11 +14,3 @@
 
 - add to `<root>/assets`
 - run `npx react-native-asset`
-
-# Known Issue
-
-issue about react-native-reanimated newArch this coused for bottom drawer on android cannot resize snap point
-
-[react-native-bottom-sheet issue](https://github.com/gorhom/react-native-bottom-sheet/issues/1259)
-
-[react-native-reanimated issue](https://github.com/software-mansion/react-native-reanimated/issues/2650)
