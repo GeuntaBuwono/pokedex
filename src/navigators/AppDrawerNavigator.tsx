@@ -4,9 +4,11 @@ import {
   DrawerToggleButton,
 } from '@react-navigation/drawer';
 import {themeAtom} from 'atoms/appAtom';
+import {useGetPokemonType} from 'hooks/useGetPokemonType';
 import {useAtom} from 'jotai';
 import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
+import TypePokemonScreen from 'screens/TypePokemonScreen';
 import styled from 'styled-components';
 
 import {AppStackNavigator} from './AppStackNavigator';
@@ -16,9 +18,15 @@ const StyledImageLeftHeader = styled(Image)`
   width: 69px;
 `;
 
-const LeftHeader = ({onPress}: {onPress: () => void}) => {
+const LeftHeader = () => {
+  const [isDarkMode, setIsDarkMode] = useAtom(themeAtom);
+
   return (
-    <TouchableOpacity onPress={onPress} testID="leftHeader">
+    <TouchableOpacity
+      onPress={() => {
+        setIsDarkMode(!isDarkMode);
+      }}
+      testID="leftHeader">
       <StyledImageLeftHeader
         resizeMode="contain"
         source={require('../images/logo.png')}
@@ -30,18 +38,17 @@ const LeftHeader = ({onPress}: {onPress: () => void}) => {
 const Drawer = createDrawerNavigator();
 
 export type RootDrawerParamList = {
-  Homepage: undefined;
-  DetailPokemon: {pokemonId: string};
+  Home: undefined;
   TypePokemon: {pokemonType: string};
 };
 
 export type AppDrawerNavigationProps = DrawerNavigationProp<
   RootDrawerParamList,
-  'Homepage'
+  'Home'
 >;
 
 export default function AppDrawerNavigator() {
-  const [isDarkMode, setIsDarkMode] = useAtom(themeAtom);
+  const {data} = useGetPokemonType();
 
   return (
     <Drawer.Navigator
@@ -50,22 +57,36 @@ export default function AppDrawerNavigator() {
         headerTitle: '',
         drawerPosition: 'right',
         swipeEnabled: false,
+        drawerActiveTintColor: '#056593',
+        drawerActiveBackgroundColor: '#fff',
         headerLeftContainerStyle: {
           padding: 12,
         },
         headerRightContainerStyle: {
           padding: 12,
         },
-        headerLeft: () => (
-          <LeftHeader
-            onPress={() => {
-              setIsDarkMode(!isDarkMode);
-            }}
-          />
-        ),
+        drawerLabelStyle: {
+          textTransform: 'capitalize',
+          fontFamily: 'Poppins-Regular',
+        },
+        headerLeft: LeftHeader,
         headerRight: DrawerToggleButton,
       }}>
       <Drawer.Screen name="Home" component={AppStackNavigator} />
+      {data?.results.map(item => {
+        if (item.name !== 'unknown') {
+          return (
+            <Drawer.Screen
+              key={item.name}
+              name={item.name}
+              component={TypePokemonScreen}
+              initialParams={{
+                pokemonType: item.name,
+              }}
+            />
+          );
+        }
+      })}
     </Drawer.Navigator>
   );
 }
