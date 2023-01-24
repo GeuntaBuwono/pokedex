@@ -1,6 +1,23 @@
 import {PokemonType} from 'schema/PokemonSchema';
 
-const colorTypeSwitcher = ({type}: {type: PokemonType}) => {
+type ReturnType =
+  | '#2196F3'
+  | '#81D4FA'
+  | '#FFEB3B'
+  | '#4CAF50'
+  | '#616161'
+  | '#795548'
+  | '#A1887F'
+  | '#616161'
+  | '#BDBDBD'
+  | '#FF7043'
+  | '#F44336'
+  | '#E53935'
+  | '#66BB6A'
+  | '#4FC3F7'
+  | 'red';
+
+const colorTypeSwitcher = ({type}: {type: PokemonType}): ReturnType => {
   switch (type) {
     case 'water':
       return '#2196F3';

@@ -8,9 +8,7 @@ describe('Badge', () => {
   test('renders correctly', () => {
     render(
       <TestingWrapper>
-        <Button onPress={() => undefined} $bgColor="red">
-          Button Testing
-        </Button>
+        <Button onPress={() => undefined}>Button Testing</Button>
       </TestingWrapper>,
     );
     expect(screen.getByText('Button Testing')).toBeTruthy();

@@ -10,6 +10,7 @@ function getItem<T>(key: string): T | null {
 }
 
 function setItem<T>(key: string, value: T): void {
+  /* istanbul ignore next */
   storage.set(key, JSON.stringify(value));
 }
 

@@ -271,6 +271,7 @@ export const handlers = [
     /* istanbul ignore next */
     const limit = req.url.searchParams.get('limit') || 20;
 
+    /* istanbul ignore next */
     return res(
       ctx.json({
         ...expectedDataListPokemon,

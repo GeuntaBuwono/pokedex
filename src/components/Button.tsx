@@ -9,19 +9,14 @@ type Props = {
   testID?: string;
 };
 
-type ButtonStyle = {
-  $bgColor?: string;
-};
-
-const StyledButton = styled(TouchableOpacity)<ButtonStyle>`
+const StyledButton = styled(TouchableOpacity)`
   padding: 13px 40px;
   border-radius: 14px;
-  background-color: ${props =>
-    props.$bgColor || props.theme.colors.secondary.yellow};
+  background-color: ${props => props.theme.colors.secondary.yellow};
 `;
 
-const Button = ({children, onPress, $bgColor, testID}: Props & ButtonStyle) => (
-  <StyledButton onPress={onPress} $bgColor={$bgColor} testID={testID}>
+const Button = ({children, onPress, testID}: Props) => (
+  <StyledButton onPress={onPress} testID={testID}>
     <Label $textAlign="center" $color="white" $isBold>
       {children}
     </Label>

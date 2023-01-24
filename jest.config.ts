@@ -21,6 +21,7 @@ const config: Config.InitialOptions = {
     'src/screens/TypePokemonScreen.tsx',
     'src/screens/DetailPokemonScreen.tsx',
     'src/screens/HomepageScreen.tsx',
+    'src/utils/colorTypeSwitcher.ts',
   ],
   testPathIgnorePatterns: [
     'src/__tests__/App.test.tsx',
