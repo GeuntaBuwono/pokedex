@@ -2,7 +2,7 @@
   "name": "pokedex",
   "version": "0.0.1",
   "engines": {
-    "node": "v18",
+    "node": ">=16",
     "yarn": "v1",
     "npm": "v9"
   },
@@ -26,7 +26,8 @@
     "format:lint": "eslint --fix ./src/",
     "format:prettier": "prettier --config .prettierrc.js ./src/ --write",
     "formatter": "yarn format:lint && yarn format:prettier",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "npx jetifier"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [
