@@ -12,6 +12,7 @@ describe('Type Pokemon Screen', () => {
         <TypePokemonScreen />
       </TestingWrapper>,
     );
-    expect(screen.getByText('Pokemon with Type normal')).toBeTruthy();
+    expect(screen.getByText('Pokemon with Type')).toBeTruthy();
+    expect(screen.getByText('normal')).toBeTruthy();
   });
 });

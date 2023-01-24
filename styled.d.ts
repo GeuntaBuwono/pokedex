@@ -21,6 +21,9 @@ declare module 'styled-components/native' {
       background: {
         color: string;
       };
+      pokemonType: {
+        color: string;
+      };
     };
     text: {
       title: {

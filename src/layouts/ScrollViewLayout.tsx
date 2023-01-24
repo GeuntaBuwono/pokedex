@@ -5,9 +5,10 @@ import {useTheme} from 'styled-components/native';
 type Props = {
   children: React.ReactNode;
   isNoPadding?: boolean;
+  $backgroundColor?: string;
 };
 
-const ScrollViewLayout = ({children, isNoPadding}: Props) => {
+const ScrollViewLayout = ({children, isNoPadding, $backgroundColor}: Props) => {
   const {screen} = useTheme();
   return (
     <ScrollView
@@ -22,7 +23,8 @@ const ScrollViewLayout = ({children, isNoPadding}: Props) => {
       }}
       testID="scrollViewLayout"
       style={{
-        backgroundColor: screen.background.color,
+        backgroundColor: $backgroundColor ?? screen.background.color,
+        flex: 1,
       }}>
       {children}
     </ScrollView>

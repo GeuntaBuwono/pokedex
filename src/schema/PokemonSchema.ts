@@ -36,6 +36,29 @@ const PokemonImageSchema = z.object({
   front_transparent: z.string().url().nullish(),
 });
 
+const PokemonTypeSchema = z.enum([
+  'normal',
+  'fighting',
+  'flying',
+  'poison',
+  'ground',
+  'bug',
+  'ghost',
+  'fire',
+  'water',
+  'grass',
+  'electric',
+  'psychic',
+  'ice',
+  'dragon',
+  'dark',
+  'fairy',
+  'shadow',
+  'steel',
+]);
+
+export type PokemonType = z.infer<typeof PokemonTypeSchema>;
+
 export const ResponseGetPokemonDetailSchema = z.object({
   abilities: z.array(
     z.object({
@@ -174,7 +197,7 @@ export const ResponseGetPokemonDetailSchema = z.object({
     z.object({
       slot: z.number(),
       type: z.object({
-        name: z.string(),
+        name: PokemonTypeSchema,
         url: z.string().url(),
       }),
     }),

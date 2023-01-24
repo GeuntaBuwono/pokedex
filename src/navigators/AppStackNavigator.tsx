@@ -1,4 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {PokemonType} from 'schema/PokemonSchema';
 import DetailPokemonScreen from 'screens/DetailPokemonScreen';
 import HomepageScreen from 'screens/HomepageScreen';
 import TypePokemonScreen from 'screens/TypePokemonScreen';
@@ -6,7 +7,7 @@ import TypePokemonScreen from 'screens/TypePokemonScreen';
 export type RootStackParamList = {
   Homepage: undefined;
   DetailPokemon: {pokemonId: string};
-  TypePokemon: {pokemonType: string};
+  TypePokemon: {pokemonType: PokemonType};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

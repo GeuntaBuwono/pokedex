@@ -34,6 +34,7 @@ import {
 } from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
 import {useTheme} from 'styled-components/native';
+import colorTypeSwitcher from 'utils/colorTypeSwitcher';
 import getJsonFromUrl from 'utils/getJsonFromUrl';
 
 import {
@@ -307,7 +308,9 @@ function HomepageScreen() {
                                 <Badge
                                   key={type.type.name}
                                   label={type.type.name}
-                                  $bgColor="red"
+                                  $bgColor={colorTypeSwitcher({
+                                    type: type.type.name,
+                                  })}
                                 />
                               );
                             }

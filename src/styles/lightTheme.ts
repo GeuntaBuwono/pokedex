@@ -24,6 +24,9 @@ export const lightTheme: DefaultTheme = {
     background: {
       color: '#fff',
     },
+    pokemonType: {
+      color: '#f3f3f3',
+    },
   },
   text: {
     title: {

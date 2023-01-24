@@ -19,6 +19,7 @@ import {
 } from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
 import styled from 'styled-components/native';
+import colorTypeSwitcher from 'utils/colorTypeSwitcher';
 
 export const StyledSection = styled.View`
   row-gap: 18px;
@@ -285,7 +286,12 @@ function DetailPokemonScreen() {
                           pokemonType: type.type.name,
                         });
                       }}>
-                      <Badge label={type.type.name} $bgColor="red" />
+                      <Badge
+                        label={type.type.name}
+                        $bgColor={colorTypeSwitcher({
+                          type: type.type.name,
+                        })}
+                      />
                     </TouchableOpacity>
                   );
                 }
@@ -302,7 +308,12 @@ function DetailPokemonScreen() {
                           pokemonType: type.type.name,
                         });
                       }}>
-                      <Badge label={type.type.name} $bgColor="red" />
+                      <Badge
+                        label={type.type.name}
+                        $bgColor={colorTypeSwitcher({
+                          type: type.type.name,
+                        })}
+                      />
                     </TouchableOpacity>
                   );
                 }

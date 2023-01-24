@@ -24,6 +24,9 @@ export const darkTheme: DefaultTheme = {
     background: {
       color: '#212121',
     },
+    pokemonType: {
+      color: '#212121',
+    },
   },
   text: {
     title: {
