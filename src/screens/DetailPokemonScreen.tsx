@@ -149,52 +149,70 @@ function DetailPokemonScreen() {
       {
         queryKey: [
           'pokemonDetailEvolutions',
-          dataPokemonEvolution && dataPokemonEvolution[0].species_name,
+          dataPokemonEvolution &&
+            dataPokemonEvolution[0] &&
+            dataPokemonEvolution[0].species_name,
         ],
         queryFn: async () => {
           const response = await axiosInstance.get(
             `/pokemon/${
-              dataPokemonEvolution && dataPokemonEvolution[0].species_name
+              dataPokemonEvolution &&
+              dataPokemonEvolution[0] &&
+              dataPokemonEvolution[0].species_name
             }`,
           );
           return ResponseGetPokemonDetailSchema.parse(response.data);
         },
         enabled: !!(
-          dataPokemonEvolution && dataPokemonEvolution[0].species_name
+          dataPokemonEvolution &&
+          dataPokemonEvolution[0] &&
+          dataPokemonEvolution[0].species_name
         ),
       },
       {
         queryKey: [
           'pokemonDetailEvolutions',
-          dataPokemonEvolution && dataPokemonEvolution[1].species_name,
+          dataPokemonEvolution &&
+            dataPokemonEvolution[1] &&
+            dataPokemonEvolution[1].species_name,
         ],
         queryFn: async () => {
           const response = await axiosInstance.get(
             `/pokemon/${
-              dataPokemonEvolution && dataPokemonEvolution[1].species_name
+              dataPokemonEvolution &&
+              dataPokemonEvolution[1] &&
+              dataPokemonEvolution[1].species_name
             }`,
           );
           return ResponseGetPokemonDetailSchema.parse(response.data);
         },
         enabled: !!(
-          dataPokemonEvolution && dataPokemonEvolution[1].species_name
+          dataPokemonEvolution &&
+          dataPokemonEvolution[1] &&
+          dataPokemonEvolution[1].species_name
         ),
       },
       {
         queryKey: [
           'pokemonDetailEvolutions',
-          dataPokemonEvolution && dataPokemonEvolution[2].species_name,
+          dataPokemonEvolution &&
+            dataPokemonEvolution[2] &&
+            dataPokemonEvolution[2].species_name,
         ],
         queryFn: async () => {
           const response = await axiosInstance.get(
             `/pokemon/${
-              dataPokemonEvolution && dataPokemonEvolution[2].species_name
+              dataPokemonEvolution &&
+              dataPokemonEvolution[2] &&
+              dataPokemonEvolution[2].species_name
             }`,
           );
           return ResponseGetPokemonDetailSchema.parse(response.data);
         },
         enabled: !!(
-          dataPokemonEvolution && dataPokemonEvolution[2].species_name
+          dataPokemonEvolution &&
+          dataPokemonEvolution[2] &&
+          dataPokemonEvolution[2].species_name
         ),
       },
     ],
