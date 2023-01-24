@@ -1,3 +1,7 @@
+# Released
+
+[Android from App Center](https://install.appcenter.ms/users/geuntabuwonowork-gmail.com/apps/pokedex/distribution_groups/public)
+
 # How To
 
 ## Link React Native Assets
