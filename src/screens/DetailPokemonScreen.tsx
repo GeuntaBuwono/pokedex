@@ -6,9 +6,15 @@ import Label from 'components/Label';
 import LoadingSpinner from 'components/Loading';
 import ScreenViewLayout from 'layouts/ScreenViewLayout';
 import ScrollViewLayout from 'layouts/ScrollViewLayout';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image, View} from 'react-native';
-import {ResponseGetPokemonDetail} from 'schema/PokemonSchema';
+import {
+  EvoDataType,
+  PokemonSpecies,
+  ResponseGetPokemonDetail,
+  TransformedResponseEvolution,
+} from 'schema/PokemonSchema';
 import {axiosInstance} from 'services/axios.base';
 import styled from 'styled-components/native';
 
@@ -41,22 +47,30 @@ const StyledCircle = styled.View`
 
 /* istanbul ignore next */
 const EvolutionItem = ({imageUri, name}: {imageUri?: string; name: string}) => (
-  <View>
-    <StyledCircle>
-      <ScreenViewLayout>
-        {imageUri && (
-          <StyledImage
-            source={{
-              uri: imageUri,
-            }}
-          />
-        )}
-      </ScreenViewLayout>
-    </StyledCircle>
-    <Label $textTransform="uppercase" $size="xm">
-      {name}
-    </Label>
-  </View>
+  <>
+    <View>
+      <StyledCircle>
+        <ScreenViewLayout>
+          {imageUri && (
+            <StyledImage
+              source={{
+                uri: imageUri,
+              }}
+            />
+          )}
+        </ScreenViewLayout>
+      </StyledCircle>
+      <View style={{marginTop: 12}}>
+        <Label
+          $textTransform="uppercase"
+          $size="xm"
+          $textAlign="center"
+          $isBold>
+          {name}
+        </Label>
+      </View>
+    </View>
+  </>
 );
 
 export const StyledDescriptionItemWrapper = styled(View)<{gap?: number}>`
@@ -68,6 +82,7 @@ type DetailPokemonRouteProp = RouteProp<RootStackParamList, 'DetailPokemon'>;
 
 function DetailPokemonScreen() {
   const route = useRoute<DetailPokemonRouteProp>();
+  const [speciesId, setSpeciesId] = useState<string>();
   const {t} = useTranslation(['detailPokemon']);
 
   const {data, isLoading, isError} = useQuery<
@@ -85,6 +100,45 @@ function DetailPokemonScreen() {
     {
       enabled: !!route.params.pokemonId,
     },
+  );
+
+  useQuery<{id: string}, unknown, PokemonSpecies>(
+    ['pokemonSpecies', route.params.pokemonId],
+    async () => {
+      const response = await axiosInstance.get(
+        `/pokemon-species/${route.params.pokemonId}`,
+      );
+      return response.data;
+    },
+    {
+      enabled: !!route.params.pokemonId,
+      onSuccess: species => {
+        setSpeciesId(species.evolution_chain.url.split('/')[6]);
+      },
+    },
+  );
+
+  const {data: dataPokemonEvolution} = useQuery(
+    ['evolutionChain', speciesId],
+    async ({queryKey: [, id]}) => {
+      const response = await axiosInstance.get(`/evolution-chain/${id}`);
+      const evoChain = [];
+      let evoData: EvoDataType = response.data.chain;
+
+      do {
+        evoChain.push({
+          species_name: evoData.species.name,
+        });
+
+        [evoData] = evoData.evolves_to;
+      } while (
+        !!evoData &&
+        Object.prototype.hasOwnProperty.call(evoData, 'evolves_to')
+      );
+
+      return TransformedResponseEvolution.parse(evoChain);
+    },
+    {enabled: !!speciesId},
   );
 
   if (!isLoading || !isError || data) {
@@ -215,42 +269,13 @@ function DetailPokemonScreen() {
         <StyledSection>
           <Label $isBold>{t('detailPokemon:Evolutions')}</Label>
           <StyledStatsWrapper>
-            {data?.sprites.versions['generation-i'].yellow.front_default && (
+            {dataPokemonEvolution?.map(item => (
               <EvolutionItem
-                name="Generation I"
-                imageUri={
-                  data?.sprites.versions['generation-i'].yellow.front_default
-                }
+                key={item.species_name}
+                name={item.species_name}
+                imageUri="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
               />
-            )}
-            {data?.sprites.versions['generation-ii'].gold.front_default && (
-              <EvolutionItem
-                name="Generation II"
-                imageUri={
-                  data?.sprites.versions['generation-ii'].gold.front_default
-                }
-              />
-            )}
-          </StyledStatsWrapper>
-          <StyledStatsWrapper>
-            {data?.sprites.versions['generation-iii'].emerald.front_default && (
-              <EvolutionItem
-                name="Generation III"
-                imageUri={
-                  data?.sprites.versions['generation-iii'].emerald.front_default
-                }
-              />
-            )}
-            {data?.sprites.versions['generation-iv']['diamond-pearl']
-              .front_default && (
-              <EvolutionItem
-                name="Generation IV"
-                imageUri={
-                  data?.sprites.versions['generation-iv']['diamond-pearl']
-                    .front_default
-                }
-              />
-            )}
+            ))}
           </StyledStatsWrapper>
         </StyledSection>
       </ScrollViewLayout>

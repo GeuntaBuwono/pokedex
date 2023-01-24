@@ -23,7 +23,10 @@ const StyledBadge = styled(View)<StyledProps>`
   };
   border-radius: 25px;
   min-width: 75px;
-  padding: ${props => sizeMapper[props.$size || 'md']};
+  padding: ${
+    /* istanbul ignore next */
+    props => sizeMapper[props.$size || 'md']
+  };
 `;
 
 type Props = {

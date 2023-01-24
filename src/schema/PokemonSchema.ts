@@ -185,3 +185,29 @@ export const ResponseGetPokemonDetailSchema = z.object({
 export type ResponseGetPokemonDetail = z.infer<
   typeof ResponseGetPokemonDetailSchema
 >;
+
+export const TransformedResponseEvolution = z.array(
+  z.object({
+    species_name: z.string(),
+  }),
+);
+
+export type EvoDataType = {
+  species: {
+    name: string;
+  };
+  evolution_details: Array<{
+    min_level: number;
+    trigger: {name: string};
+    item: string;
+  }>;
+  evolves_to: Array<EvoDataType>;
+};
+
+const PokemonSpeciesSchema = z.object({
+  evolution_chain: z.object({
+    url: z.string().url(),
+  }),
+});
+
+export type PokemonSpecies = z.infer<typeof PokemonSpeciesSchema>;
